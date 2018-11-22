@@ -1,0 +1,25 @@
+[[overrides]]
+  files = "*.html"
+  [overrides.options]
+    parser = "angular"
+
+[[overrides]]
+  files = "*.js"
+  [overrides.options]
+    parser = "babylon"
+
+[[overrides]]
+  files = "*.json"
+  [overrides.options]
+    parser = "json"
+
+[[overrides]]
+  files = "*.scss"
+  [overrides.options]
+    parser = "scss"
+
+[[overrides]]
+  files = "*.ts"
+  [overrides.options]
+    parser = "typescript"
+    singleQuote = true
