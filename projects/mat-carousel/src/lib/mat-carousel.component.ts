@@ -50,7 +50,7 @@ export class MatCarouselComponent
   @ContentChildren(MatCarouselItemComponent)
   public items: QueryList<MatCarouselItemComponent>;
 
-  public current = 0;
+  public currentIndex = 0;
   public playing = false;
 
   @ViewChild('carouselContainer')
@@ -58,8 +58,8 @@ export class MatCarouselComponent
   @ViewChild('carouselList')
   private carouselList: ElementRef;
 
-  private intervalSubscription: Subscription;
   private interval: Observable<number>;
+  private intervalSubscription: Subscription;
 
   constructor(private animationBuilder: AnimationBuilder) {}
 
@@ -82,11 +82,11 @@ export class MatCarouselComponent
   }
 
   public next(): void {
-    this.show(this.current + 1);
+    this.show(this.currentIndex + 1);
   }
 
   public previous(): void {
-    this.show(this.current - 1);
+    this.show(this.currentIndex - 1);
   }
 
   public show(index: number): void {
@@ -123,7 +123,7 @@ export class MatCarouselComponent
   }
 
   private playAnimation(): void {
-    const offset = this.current * this.getWidth();
+    const offset = this.currentIndex * this.getWidth();
     const factory = this.animationBuilder.build(
       animate(this.timings, style({ transform: `translateX(-${offset}px)` }))
     );
@@ -138,7 +138,7 @@ export class MatCarouselComponent
   }
 
   private setCurrent(index: number) {
-    this.current =
+    this.currentIndex =
       index === this.items.length
         ? 0 // start carousel over
         : index < 0
