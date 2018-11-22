@@ -1,0 +1,50 @@
+@import "mixins";
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+
+  & > button {
+    position: absolute;
+    z-index: 1;
+    @include centerY();
+
+    &:first-of-type {
+      left: 30px;
+    }
+
+    &:last-of-type {
+      right: 30px;
+    }
+  }
+
+  &-list {
+    @include size();
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    position: inherit;
+  }
+
+  &-item {
+    @include size(100%, 0);
+    padding-bottom: 25%;
+
+    display: flex;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  &-stepper {
+    position: absolute;
+    bottom: 15px;
+    z-index: 1;
+    @include centerX();
+
+    & > button {
+      @include size(15px);
+      @include space-between();
+    }
+  }
+}

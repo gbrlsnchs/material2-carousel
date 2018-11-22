@@ -1,0 +1,15 @@
+@import "mixins";
+
+.carousel-item {
+  @include frame();
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  &-outline {
+    @include frame();
+  }
+
+  &-content {
+    @include frame(1);
+  }
+}

@@ -1,0 +1,28 @@
+@mixin centerX() {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin centerY() {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin frame($z-index: auto) {
+  @include size();
+  position: absolute;
+  z-index: $z-index;
+}
+
+@mixin size($width: 100%, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+@mixin space-between() {
+  margin-left: 15px;
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+}

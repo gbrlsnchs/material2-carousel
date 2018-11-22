@@ -1,0 +1,33 @@
+<section class="carousel" #carouselContainer>
+  <ul class="carousel-list" #carouselList>
+    <li class="carousel-item" *ngFor="let item of items">
+      <ng-container [ngTemplateOutlet]="item.templateRef"></ng-container>
+    </li>
+  </ul>
+
+  <button
+    mat-fab
+    *ngIf="showButtons"
+    (click)="previous()"
+    [disabled]="playing || (!loop && current == 0)"
+  >
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <button
+    mat-fab
+    *ngIf="showButtons"
+    (click)="next()"
+    [disabled]="playing || (!loop && current == items.length - 1)"
+  >
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+
+  <div class="carousel-stepper" *ngIf="showStepper">
+    <button
+      mat-mini-fab
+      *ngFor="let item of items; let i = index"
+      [disabled]="i == current"
+      (click)="show(i)"
+    ></button>
+  </div>
+</section>
