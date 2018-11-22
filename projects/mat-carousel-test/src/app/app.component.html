@@ -46,20 +46,20 @@
   ></mat-carousel-item>
 </mat-carousel>
 
-<h1>Different outline color</h1>
+<h1>Different overlay color</h1>
 <mat-carousel>
   <mat-carousel-item
     *ngFor="let item of items"
-    outlineColor="#ff000040"
+    overlayColor="#ff000040"
     backgroundImage="assets/dummy.png"
   ></mat-carousel-item>
 </mat-carousel>
 
-<h1>No outline</h1>
+<h1>No overlay</h1>
 <mat-carousel>
   <mat-carousel-item
     *ngFor="let item of items"
-    [showOutline]="false"
+    [showOverlay]="false"
     backgroundImage="assets/dummy.png"
   ></mat-carousel-item>
 </mat-carousel>
@@ -75,7 +75,7 @@
     >
       <h1>Slider #{{ i + 1 }}</h1>
       <p>This is the text for slider #{{ i + 1 }}</p>
-      <button mat-raised-button>Click me!</button>
+      <button mat-raised-button>Click me #{{ i + 1 }}</button>
     </div>
   </mat-carousel-item>
 </mat-carousel>

@@ -2,9 +2,9 @@
   <div class="carousel-item" [style.background-image]="backgroundImage">
     <div class="carousel-item-content"><ng-content></ng-content></div>
     <div
-      class="carousel-item-outline"
-      *ngIf="showOutline"
-      [style.background-color]="outlineColor"
+      class="carousel-item-overlay"
+      *ngIf="showOverlay"
+      [style.background-color]="overlayColor"
     ></div>
   </div>
 </ng-template>

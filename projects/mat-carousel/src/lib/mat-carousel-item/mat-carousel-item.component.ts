@@ -16,9 +16,9 @@ export class MatCarouselItemComponent implements OnInit {
   @Input()
   public backgroundImage: string;
   @Input()
-  public outlineColor = '#00000040';
+  public overlayColor = '#00000040';
   @Input()
-  public showOutline = true;
+  public showOverlay = true;
 
   // Elements.
   @ViewChild(TemplateRef)
