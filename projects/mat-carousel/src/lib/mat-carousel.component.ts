@@ -1,4 +1,5 @@
 import {
+  AfterContentInit,
   AfterViewInit,
   Component,
   ContentChildren,
@@ -25,7 +26,8 @@ import { MatCarouselItemComponent } from './mat-carousel-item/mat-carousel-item.
   templateUrl: './mat-carousel.component.html',
   styleUrls: ['./mat-carousel.component.scss']
 })
-export class MatCarouselComponent implements AfterViewInit, OnDestroy, OnInit {
+export class MatCarouselComponent
+  implements AfterContentInit, AfterViewInit, OnDestroy, OnInit {
   // Attributes.
   @Input()
   public timings = '250ms ease-in';
@@ -41,6 +43,8 @@ export class MatCarouselComponent implements AfterViewInit, OnDestroy, OnInit {
   public showStepper = true;
   @Input()
   public awaitAnimation = false;
+  @Input()
+  public maxItems: number;
 
   // Elements.
   @ContentChildren(MatCarouselItemComponent)
@@ -58,6 +62,12 @@ export class MatCarouselComponent implements AfterViewInit, OnDestroy, OnInit {
   private interval: Observable<number>;
 
   constructor(private animationBuilder: AnimationBuilder) {}
+
+  public ngAfterContentInit(): void {
+    if (this.maxItems) {
+      this.items.reset(this.items.toArray().slice(0, this.maxItems));
+    }
+  }
 
   public ngAfterViewInit(): void {
     this.startTimer();
