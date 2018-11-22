@@ -3,6 +3,7 @@
     <div class="carousel-item-content"><ng-content></ng-content></div>
     <div
       class="carousel-item-outline"
+      *ngIf="showOutline"
       [style.background-color]="outlineColor"
     ></div>
   </div>

@@ -22,8 +22,8 @@
   ></mat-carousel-item>
 </mat-carousel>
 
-<h1>No buttons</h1>
-<mat-carousel [showButtons]="false">
+<h1>No arrows</h1>
+<mat-carousel [showArrows]="false">
   <mat-carousel-item
     *ngFor="let item of items"
     backgroundImage="assets/dummy.png"
@@ -53,4 +53,29 @@
     outlineColor="#ff000040"
     backgroundImage="assets/dummy.png"
   ></mat-carousel-item>
+</mat-carousel>
+
+<h1>No outline</h1>
+<mat-carousel>
+  <mat-carousel-item
+    *ngFor="let item of items"
+    [showOutline]="false"
+    backgroundImage="assets/dummy.png"
+  ></mat-carousel-item>
+</mat-carousel>
+
+<h1>With custom content</h1>
+<mat-carousel>
+  <mat-carousel-item
+    *ngFor="let item of items; let i = index"
+    backgroundImage="assets/dummy.png"
+  >
+    <div
+      style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center"
+    >
+      <h1>Slider #{{ i + 1 }}</h1>
+      <p>This is the text for slider #{{ i + 1 }}</p>
+      <button mat-raised-button>Click me!</button>
+    </div>
+  </mat-carousel-item>
 </mat-carousel>

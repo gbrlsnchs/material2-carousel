@@ -5,6 +5,8 @@ import {
   ElementRef,
   HostListener,
   Input,
+  OnDestroy,
+  OnInit,
   QueryList,
   ViewChild
 } from '@angular/core';
@@ -14,6 +16,7 @@ import {
   AnimationBuilder,
   AnimationPlayer
 } from '@angular/animations';
+import { interval, Observable, Subscription } from 'rxjs';
 
 import { MatCarouselItemComponent } from './mat-carousel-item/mat-carousel-item.component';
 
@@ -22,7 +25,7 @@ import { MatCarouselItemComponent } from './mat-carousel-item/mat-carousel-item.
   templateUrl: './mat-carousel.component.html',
   styleUrls: ['./mat-carousel.component.scss']
 })
-export class MatCarouselComponent implements AfterViewInit {
+export class MatCarouselComponent implements AfterViewInit, OnDestroy, OnInit {
   // Attributes.
   @Input()
   public timings = '250ms ease-in';
@@ -33,7 +36,7 @@ export class MatCarouselComponent implements AfterViewInit {
   @Input()
   public autoplayInterval = 5000;
   @Input()
-  public showButtons = true;
+  public showArrows = true;
   @Input()
   public showStepper = true;
   @Input()
@@ -51,12 +54,21 @@ export class MatCarouselComponent implements AfterViewInit {
   @ViewChild('carouselList')
   private carouselList: ElementRef;
 
-  private nextInterval: number;
+  private intervalSubscription: Subscription;
+  private interval: Observable<number>;
 
   constructor(private animationBuilder: AnimationBuilder) {}
 
   public ngAfterViewInit(): void {
     this.startTimer();
+  }
+
+  public ngOnDestroy(): void {
+    this.clearInterval();
+  }
+
+  public ngOnInit(): void {
+    this.interval = interval(this.autoplayInterval);
   }
 
   public next(): void {
@@ -74,7 +86,7 @@ export class MatCarouselComponent implements AfterViewInit {
 
   @HostListener('mouseenter')
   public onMouseEnter(): void {
-    window.clearInterval(this.nextInterval);
+    this.clearInterval();
   }
 
   @HostListener('mouseleave')
@@ -87,6 +99,12 @@ export class MatCarouselComponent implements AfterViewInit {
     // Reset carousel when window is resized
     // in order to avoid major glitches.
     this.show(0);
+  }
+
+  private clearInterval(): void {
+    if (this.intervalSubscription) {
+      this.intervalSubscription.unsubscribe();
+    }
   }
 
   private getWidth(): number {
@@ -119,11 +137,10 @@ export class MatCarouselComponent implements AfterViewInit {
   }
 
   private startTimer(): void {
-    window.clearInterval(this.nextInterval);
+    this.clearInterval();
     if (this.autoplay) {
-      this.nextInterval = window.setInterval(
-        () => this.next(),
-        this.autoplayInterval
+      this.intervalSubscription = interval(this.autoplayInterval).subscribe(
+        () => this.next()
       );
     }
   }

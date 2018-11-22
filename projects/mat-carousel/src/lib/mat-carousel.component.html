@@ -7,7 +7,7 @@
 
   <button
     mat-fab
-    *ngIf="showButtons"
+    *ngIf="showArrows"
     (click)="previous()"
     [disabled]="playing || (!loop && current == 0)"
   >
@@ -15,7 +15,7 @@
   </button>
   <button
     mat-fab
-    *ngIf="showButtons"
+    *ngIf="showArrows"
     (click)="next()"
     [disabled]="playing || (!loop && current == items.length - 1)"
   >
