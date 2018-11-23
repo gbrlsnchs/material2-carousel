@@ -20,6 +20,7 @@ import {
 } from '@angular/animations';
 import { interval, Observable, Subscription } from 'rxjs';
 
+import { MatCarousel } from './mat-carousel';
 import { MatCarouselItemComponent } from './mat-carousel-item/mat-carousel-item.component';
 
 @Component({
@@ -28,7 +29,7 @@ import { MatCarouselItemComponent } from './mat-carousel-item/mat-carousel-item.
   styleUrls: ['./mat-carousel.component.scss']
 })
 export class MatCarouselComponent
-  implements AfterContentInit, AfterViewInit, OnDestroy, OnInit {
+  implements AfterContentInit, AfterViewInit, MatCarousel, OnDestroy, OnInit {
   // Attributes.
   @Input()
   public timings = '250ms ease-in';
