@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
+  Renderer2,
   ViewChild
 } from '@angular/core';
 import {
@@ -61,7 +62,10 @@ export class MatCarouselComponent
   private interval: Observable<number>;
   private intervalSubscription: Subscription;
 
-  constructor(private animationBuilder: AnimationBuilder) {}
+  constructor(
+    private animationBuilder: AnimationBuilder,
+    private renderer: Renderer2
+  ) {}
 
   public ngAfterContentInit(): void {
     if (this.maxItems) {
@@ -83,6 +87,37 @@ export class MatCarouselComponent
 
   public next(): void {
     this.show(this.currentIndex + 1);
+  }
+
+  public onPan(event: any, item: HTMLElement): void {
+    let Δx = event.deltaX;
+    if (this.isOutOfBounds()) {
+      Δx *= 0.2; // decelerate movement;
+    }
+
+    this.renderer.setStyle(item, 'cursor', 'grabbing');
+    this.renderer.setStyle(
+      this.carouselList.nativeElement,
+      'transform',
+      this.getTranslation(-this.getOffset() + Δx)
+    );
+  }
+
+  public onPanEnd(event: any, item: HTMLElement): void {
+    this.renderer.removeStyle(item, 'cursor');
+
+    if (
+      !this.isOutOfBounds() &&
+      Math.abs(event.deltaX) > this.getWidth() * 0.25
+    ) {
+      if (event.deltaX <= 0) {
+        this.next();
+        return;
+      }
+      this.previous();
+      return;
+    }
+    this.playAnimation();
   }
 
   public previous(): void {
@@ -117,23 +152,50 @@ export class MatCarouselComponent
     }
   }
 
+  private isOutOfBounds(): boolean {
+    const el = this.carouselList.nativeElement as HTMLElement;
+    const left = el.getBoundingClientRect().left;
+    const lastIndex = this.items.length - 1;
+
+    return (
+      (this.currentIndex === 0 && left >= 0) ||
+      (this.currentIndex === lastIndex && left <= -this.getWidth() * lastIndex)
+    );
+  }
+
+  private getOffset(): number {
+    const offset = this.currentIndex * this.getWidth();
+    return offset;
+  }
+
+  private getTranslation(offset: number): string {
+    return `translateX(${offset}px)`;
+  }
+
   private getWidth(): number {
     const el = this.carouselContainer.nativeElement as HTMLElement;
     return el.clientWidth;
   }
 
   private playAnimation(): void {
-    const offset = this.currentIndex * this.getWidth();
+    const translation = this.getTranslation(-this.getOffset());
     const factory = this.animationBuilder.build(
-      animate(this.timings, style({ transform: `translateX(-${offset}px)` }))
+      animate(
+        this.timings,
+        style({
+          transform: translation
+        })
+      )
     );
-    const animation = factory.create(this.carouselList.nativeElement);
+    const el = this.carouselList.nativeElement as HTMLElement;
+    const animation = factory.create(el);
 
-    if (this.awaitAnimation) {
-      animation.onStart(() => (this.playing = true));
-      animation.onDone(() => (this.playing = false));
-    }
-
+    animation.onStart(() => (this.playing = true));
+    animation.beforeDestroy = () => (this.playing = false);
+    animation.onDone(() => {
+      this.renderer.setStyle(el, 'transform', translation);
+      animation.destroy();
+    });
     animation.play();
   }
 

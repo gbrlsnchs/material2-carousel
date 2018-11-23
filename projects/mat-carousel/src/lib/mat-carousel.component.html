@@ -1,6 +1,14 @@
 <section class="carousel" #carouselContainer>
   <ul class="carousel-list" #carouselList>
-    <li class="carousel-item" *ngFor="let item of items">
+    <li
+      class="carousel-item"
+      #carouselItem
+      *ngFor="let item of items"
+      (panleft)="onPan($event, carouselItem)"
+      (panright)="onPan($event, carouselItem)"
+      (panend)="onPanEnd($event, carouselItem)"
+      (pancancel)="onPanEnd($event, carouselItem)"
+    >
       <ng-container [ngTemplateOutlet]="item.templateRef"></ng-container>
     </li>
   </ul>
@@ -9,7 +17,7 @@
     mat-fab
     *ngIf="showArrows"
     (click)="previous()"
-    [disabled]="playing || (!loop && currentIndex == 0)"
+    [disabled]="(awaitAnimation && playing) || (!loop && currentIndex == 0)"
   >
     <mat-icon>arrow_back</mat-icon>
   </button>
@@ -17,7 +25,9 @@
     mat-fab
     *ngIf="showArrows"
     (click)="next()"
-    [disabled]="playing || (!loop && currentIndex == items.length - 1)"
+    [disabled]="
+      (awaitAnimation && playing) || (!loop && currentIndex == items.length - 1)
+    "
   >
     <mat-icon>arrow_forward</mat-icon>
   </button>

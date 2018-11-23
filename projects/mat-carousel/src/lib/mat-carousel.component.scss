@@ -1,6 +1,8 @@
 @import "mixins";
 
 .carousel {
+  @include size(100%, 0);
+  padding-bottom: 25%;
   position: relative;
   overflow: hidden;
 
@@ -24,16 +26,15 @@
     padding: 0;
     list-style: none;
     display: flex;
-    position: inherit;
+    position: absolute;
   }
 
   &-item {
-    @include size(100%, 0);
-    padding-bottom: 25%;
-
+    @include size();
     display: flex;
     flex-shrink: 0;
     position: relative;
+    cursor: grab;
   }
 
   &-stepper {
