@@ -9,12 +9,20 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "noUnusedLocals": true,
     "target": "es5",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "paths": {
       "material2-carousel": ["dist/mat-carousel"],
       "material2-carousel/*": ["dist/mat-carousel/*"]
-    }
+    },
+    "plugins": [
+      { "name": "@angular/language-service" },
+      {
+        "name": "tslint-language-service",
+        "alwaysShowRuleFailuresAsWarnings": true
+      }
+    ]
   }
 }
