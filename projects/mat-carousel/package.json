@@ -2,7 +2,6 @@
   "name": "material2-carousel",
   "version": "0.1.0",
   "peerDependencies": {
-    "@angular/animations": "^7.0.0",
     "@angular/material": "^7.0.0",
     "rxjs": "~6.3.3"
   }
