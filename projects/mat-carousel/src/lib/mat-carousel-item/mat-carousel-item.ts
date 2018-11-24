@@ -1,5 +1,5 @@
 export interface MatCarouselItem {
-  backgroundImage: string;
-  overlayColor: string;
-  showOverlay: boolean;
+  backgroundImage?: string;
+  overlayColor?: string;
+  showOverlay?: boolean;
 }
