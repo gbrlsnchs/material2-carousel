@@ -12,13 +12,9 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import {
-  animate,
-  style,
-  AnimationBuilder,
-  AnimationPlayer
-} from '@angular/animations';
-import { interval, Observable, Subscription } from 'rxjs';
+import { animate, style, AnimationBuilder } from '@angular/animations';
+import { interval, BehaviorSubject, Observable, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { MatCarousel } from './mat-carousel';
 import { MatCarouselItemComponent } from './mat-carousel-item/mat-carousel-item.component';
@@ -46,7 +42,9 @@ export class MatCarouselComponent
   @Input()
   public awaitAnimation = false;
   @Input()
-  public maxItems: number;
+  public set maxItems(value: number) {
+    this.todo$.next(value);
+  }
 
   // Elements.
   @ContentChildren(MatCarouselItemComponent)
@@ -60,8 +58,10 @@ export class MatCarouselComponent
   @ViewChild('carouselList')
   private carouselList: ElementRef;
 
-  private interval: Observable<number>;
-  private intervalSubscription: Subscription;
+  private interval$: Observable<number>;
+  private stopInterval$ = new Subject<never>();
+  private todo$ = new BehaviorSubject<number>(null);
+  private ngOnDestroy$ = new Subject<never>();
 
   constructor(
     private animationBuilder: AnimationBuilder,
@@ -69,9 +69,14 @@ export class MatCarouselComponent
   ) {}
 
   public ngAfterContentInit(): void {
-    if (this.maxItems) {
-      this.items.reset(this.items.toArray().slice(0, this.maxItems));
-    }
+    this.todo$
+      .pipe(
+        takeUntil(this.ngOnDestroy$),
+        filter(n => !!n)
+      )
+      .subscribe((value: number) => {
+        this.resetItems(value);
+      });
   }
 
   public ngAfterViewInit(): void {
@@ -79,11 +84,12 @@ export class MatCarouselComponent
   }
 
   public ngOnDestroy(): void {
-    this.clearInterval();
+    this.ngOnDestroy$.next();
+    this.ngOnDestroy$.complete();
   }
 
   public ngOnInit(): void {
-    this.interval = interval(this.autoplayInterval);
+    this.interval$ = interval(this.autoplayInterval);
   }
 
   public next(): void {
@@ -132,7 +138,7 @@ export class MatCarouselComponent
 
   @HostListener('mouseenter')
   public onMouseEnter(): void {
-    this.clearInterval();
+    this.stopInterval$.next();
   }
 
   @HostListener('mouseleave')
@@ -145,12 +151,6 @@ export class MatCarouselComponent
     // Reset carousel when window is resized
     // in order to avoid major glitches.
     this.show(0);
-  }
-
-  private clearInterval(): void {
-    if (this.intervalSubscription) {
-      this.intervalSubscription.unsubscribe();
-    }
   }
 
   private isOutOfBounds(): boolean {
@@ -200,6 +200,10 @@ export class MatCarouselComponent
     animation.play();
   }
 
+  private resetItems(maxItems: number): void {
+    this.items.reset(this.items.toArray().slice(0, maxItems));
+  }
+
   private setCurrent(index: number) {
     this.currentIndex =
       index === this.items.length
@@ -210,11 +214,13 @@ export class MatCarouselComponent
   }
 
   private startTimer(): void {
-    this.clearInterval();
     if (this.autoplay) {
-      this.intervalSubscription = interval(this.autoplayInterval).subscribe(
-        () => this.next()
-      );
+      this.interval$
+        .pipe(
+          takeUntil(this.stopInterval$),
+          takeUntil(this.ngOnDestroy$)
+        )
+        .subscribe(() => this.next());
     }
   }
 }
