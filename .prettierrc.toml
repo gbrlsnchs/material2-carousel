@@ -23,3 +23,8 @@
   [overrides.options]
     parser = "typescript"
     singleQuote = true
+
+[[overrides]]
+  files = "*.ya?ml"
+  [overrides.options]
+    parser = "yaml"
