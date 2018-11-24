@@ -93,6 +93,12 @@ export class MatCarouselComponent
   }
 
   public next(): void {
+    if (this.awaitAnimation && this.playing) {
+      return;
+    }
+    if (!this.loop && this.currentIndex === this.items.length - 1) {
+      return;
+    }
     this.show(this.currentIndex + 1);
   }
 
@@ -128,6 +134,12 @@ export class MatCarouselComponent
   }
 
   public previous(): void {
+    if (this.awaitAnimation && this.playing) {
+      return;
+    }
+    if (!this.loop && this.currentIndex === 0) {
+      return;
+    }
     this.show(this.currentIndex - 1);
   }
 
