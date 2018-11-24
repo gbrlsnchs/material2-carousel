@@ -24,4 +24,4 @@ install:
   - npm install
 
 script:
-  - npm run test -- --watch false
+  - npm run test -- mat-carousel --watch false
