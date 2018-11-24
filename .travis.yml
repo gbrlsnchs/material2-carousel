@@ -1,0 +1,27 @@
+os:
+  - linux
+  - osx
+  - windows
+sudo: false
+
+language: node_js
+node_js:
+  - "10"
+
+addons:
+  firefox: latest
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
+cache:
+  directories:
+    - ./node_modules
+
+install:
+  - npm install
+
+script:
+  - npm run test -- --watch false
