@@ -6,14 +6,14 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { MatCarouselItem } from './mat-carousel-item';
+import { MatCarouselSlide } from './carousel-slide';
 
 @Component({
-  selector: 'mat-carousel-item',
-  templateUrl: './mat-carousel-item.component.html',
-  styleUrls: ['./mat-carousel-item.component.scss']
+  selector: 'mat-carousel-slide',
+  templateUrl: './carousel-slide.component.html',
+  styleUrls: ['./carousel-slide.component.scss']
 })
-export class MatCarouselItemComponent implements MatCarouselItem, OnInit {
+export class MatCarouselSlideComponent implements MatCarouselSlide, OnInit {
   // Attributes.
   @Input()
   public backgroundImage: string;

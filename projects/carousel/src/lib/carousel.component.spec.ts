@@ -12,12 +12,12 @@ import { MatCarouselModule } from './mat-carousel.module';
   selector: 'mat-carousel-test-wrapper-component',
   template: `
     <mat-carousel [autoplay]="false">
-      <mat-carousel-item *ngFor="let item of items"></mat-carousel-item>
+      <mat-carousel-slide *ngFor="let slide of slides"></mat-carousel-slide>
     </mat-carousel>
   `
 })
 class MatCarouselTestWrapperComponent {
-  public items = new Array<never>(5);
+  public slides = new Array<never>(5);
 }
 
 describe('MatCarouselComponent', () => {
@@ -52,12 +52,12 @@ describe('MatCarouselComponent', () => {
   });
 
   it('should have 5 children', () => {
-    expect(component.items.length).toBe(5);
+    expect(component.slides.length).toBe(5);
   });
 
   it('should adjust itself to have 3 children', () => {
-    component.maxItems = 3;
-    expect(component.items.length).toBe(3);
+    component.maxSlides = 3;
+    expect(component.slides.length).toBe(3);
   });
 
   it('should change index to 1', () => {
@@ -66,17 +66,17 @@ describe('MatCarouselComponent', () => {
   });
 
   it('should change index to last element', () => {
-    component.show(component.items.length - 1);
+    component.show(component.slides.length - 1);
     expect(component.currentIndex).toBe(4);
   });
 
-  it('should go from last to first item', () => {
-    component.show(component.items.length - 1);
+  it('should go from last to first slide', () => {
+    component.show(component.slides.length - 1);
     component.next();
     expect(component.currentIndex).toBe(0);
   });
 
-  it('should go from first to last item', () => {
+  it('should go from first to last slide', () => {
     component.previous();
     expect(component.currentIndex).toBe(4);
   });

@@ -3,11 +3,11 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mat-carousel": {
-      "root": "projects/mat-carousel",
-      "sourceRoot": "projects/mat-carousel/src",
+    "carousel": {
+      "root": "projects/carousel",
+      "sourceRoot": "projects/carousel/src",
       "projectType": "library",
-      "prefix": "mat-carousel",
+      "prefix": "mat",
       "schematics": {
         "@schematics/angular:component": {
           "styleext": "scss"
@@ -17,18 +17,18 @@
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/mat-carousel/tsconfig.lib.json",
-            "project": "projects/mat-carousel/ng-package.json"
+            "tsConfig": "projects/carousel/tsconfig.lib.json",
+            "project": "projects/carousel/ng-package.json"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/mat-carousel/src/test.ts",
-            "tsConfig": "projects/mat-carousel/tsconfig.spec.json",
-            "karmaConfig": "projects/mat-carousel/karma.conf.js",
+            "main": "projects/carousel/src/test.ts",
+            "tsConfig": "projects/carousel/tsconfig.spec.json",
+            "karmaConfig": "projects/carousel/karma.conf.js",
             "stylePreprocessorOptions": {
-              "includePaths": ["projects/mat-carousel/src/styles"]
+              "includePaths": ["projects/carousel/src/styles"]
             }
           }
         },
@@ -36,8 +36,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/mat-carousel/tsconfig.lib.json",
-              "projects/mat-carousel/tsconfig.spec.json"
+              "projects/carousel/tsconfig.lib.json",
+              "projects/carousel/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
@@ -148,5 +148,5 @@
       }
     }
   },
-  "defaultProject": "mat-carousel"
+  "defaultProject": "carousel"
 }

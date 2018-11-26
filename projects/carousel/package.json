@@ -1,5 +1,5 @@
 {
-  "name": "material2-carousel",
+  "name": "@ngmodule/material-carousel",
   "version": "0.1.0",
   "peerDependencies": {
     "@angular/material": "^7.0.0",

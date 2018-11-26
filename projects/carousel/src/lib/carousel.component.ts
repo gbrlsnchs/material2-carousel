@@ -16,13 +16,13 @@ import { animate, style, AnimationBuilder } from '@angular/animations';
 import { interval, BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { MatCarousel } from './mat-carousel';
-import { MatCarouselItemComponent } from './mat-carousel-item/mat-carousel-item.component';
+import { MatCarousel } from './carousel';
+import { MatCarouselSlideComponent } from './carousel-slide/carousel-slide.component';
 
 @Component({
   selector: 'mat-carousel',
-  templateUrl: './mat-carousel.component.html',
-  styleUrls: ['./mat-carousel.component.scss']
+  templateUrl: './carousel.component.html',
+  styleUrls: ['./carousel.component.scss']
 })
 export class MatCarouselComponent
   implements AfterContentInit, AfterViewInit, MatCarousel, OnDestroy, OnInit {
@@ -38,17 +38,21 @@ export class MatCarouselComponent
   @Input()
   public showArrows = true;
   @Input()
-  public showStepper = true;
+  public showIndicators = true;
   @Input()
   public awaitAnimation = false;
   @Input()
-  public set maxItems(value: number) {
+  public proportion = 25;
+  @Input()
+  public maxWidth: string;
+  @Input()
+  public set maxSlides(value: number) {
     this.todo$.next(value);
   }
 
   // Elements.
-  @ContentChildren(MatCarouselItemComponent)
-  public items: QueryList<MatCarouselItemComponent>;
+  @ContentChildren(MatCarouselSlideComponent)
+  public slides: QueryList<MatCarouselSlideComponent>;
 
   public currentIndex = 0;
   public playing = false;
@@ -75,7 +79,7 @@ export class MatCarouselComponent
         filter(n => !!n)
       )
       .subscribe((value: number) => {
-        this.resetItems(value);
+        this.resetSlides(value);
       });
   }
 
@@ -92,23 +96,23 @@ export class MatCarouselComponent
     this.interval$ = interval(this.autoplayInterval);
   }
 
-  public next(): void {
+  public next(force = false): void {
     if (this.awaitAnimation && this.playing) {
       return;
     }
-    if (!this.loop && this.currentIndex === this.items.length - 1) {
+    if (!force && !this.loop && this.currentIndex === this.slides.length - 1) {
       return;
     }
     this.show(this.currentIndex + 1);
   }
 
-  public onPan(event: any, item: HTMLElement): void {
+  public onPan(event: any, slideElem: HTMLElement): void {
     let Δx = event.deltaX;
     if (this.isOutOfBounds()) {
       Δx *= 0.2; // decelerate movement;
     }
 
-    this.renderer.setStyle(item, 'cursor', 'grabbing');
+    this.renderer.setStyle(slideElem, 'cursor', 'grabbing');
     this.renderer.setStyle(
       this.carouselList.nativeElement,
       'transform',
@@ -116,8 +120,8 @@ export class MatCarouselComponent
     );
   }
 
-  public onPanEnd(event: any, item: HTMLElement): void {
-    this.renderer.removeStyle(item, 'cursor');
+  public onPanEnd(event: any, slideElem: HTMLElement): void {
+    this.renderer.removeStyle(slideElem, 'cursor');
 
     if (
       !this.isOutOfBounds() &&
@@ -133,11 +137,11 @@ export class MatCarouselComponent
     this.playAnimation();
   }
 
-  public previous(): void {
+  public previous(force = false): void {
     if (this.awaitAnimation && this.playing) {
       return;
     }
-    if (!this.loop && this.currentIndex === 0) {
+    if (!force && !this.loop && this.currentIndex === 0) {
       return;
     }
     this.show(this.currentIndex - 1);
@@ -168,7 +172,7 @@ export class MatCarouselComponent
   private isOutOfBounds(): boolean {
     const el = this.carouselList.nativeElement as HTMLElement;
     const left = el.getBoundingClientRect().left;
-    const lastIndex = this.items.length - 1;
+    const lastIndex = this.slides.length - 1;
 
     return (
       (this.currentIndex === 0 && left >= 0) ||
@@ -204,24 +208,24 @@ export class MatCarouselComponent
     const animation = factory.create(el);
 
     animation.onStart(() => (this.playing = true));
-    animation.beforeDestroy = () => (this.playing = false);
     animation.onDone(() => {
+      this.playing = false;
       this.renderer.setStyle(el, 'transform', translation);
       animation.destroy();
     });
     animation.play();
   }
 
-  private resetItems(maxItems: number): void {
-    this.items.reset(this.items.toArray().slice(0, maxItems));
+  private resetSlides(maxSlides: number): void {
+    this.slides.reset(this.slides.toArray().slice(0, maxSlides));
   }
 
   private setCurrent(index: number) {
     this.currentIndex =
-      index === this.items.length
+      index === this.slides.length
         ? 0 // start carousel over
         : index < 0
-        ? this.items.length - 1 // go to last item
+        ? this.slides.length - 1 // go to last slide
         : index;
   }
 
@@ -232,7 +236,7 @@ export class MatCarouselComponent
           takeUntil(this.stopInterval$),
           takeUntil(this.ngOnDestroy$)
         )
-        .subscribe(() => this.next());
+        .subscribe(() => this.next(true));
     }
   }
 }

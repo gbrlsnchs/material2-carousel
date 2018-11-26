@@ -1,4 +1,4 @@
-export interface MatCarouselItem {
+export interface MatCarouselSlide {
   backgroundImage?: string;
   overlayColor?: string;
   showOverlay?: boolean;

@@ -1,0 +1,10 @@
+<ng-template>
+  <div class="carousel-slide" [style.background-image]="backgroundImage">
+    <div class="carousel-slide-content"><ng-content></ng-content></div>
+    <div
+      class="carousel-slide-overlay"
+      *ngIf="showOverlay"
+      [style.background-color]="overlayColor"
+    ></div>
+  </div>
+</ng-template>

@@ -4,7 +4,7 @@ export interface MatCarousel {
   autoplay?: boolean;
   autoplayInterval?: number;
   showArrows?: boolean;
-  showStepper?: boolean;
+  showIndicators?: boolean;
   awaitAnimation?: boolean;
-  maxItems?: number;
+  maxSlides?: number;
 }
