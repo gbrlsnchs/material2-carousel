@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MatCarouselSlideComponent } from './mat-carousel-slide.component';
+import { MatCarouselSlideComponent } from './carousel-slide.component';
 
 describe('MatCarouselSlideComponent', () => {
   let component: MatCarouselSlideComponent;

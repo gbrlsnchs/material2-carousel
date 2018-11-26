@@ -5,8 +5,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { MatCarouselComponent } from './mat-carousel.component';
-import { MatCarouselModule } from './mat-carousel.module';
+import { MatCarouselComponent } from './carousel.component';
+import { MatCarouselModule } from './carousel.module';
 
 @Component({
   selector: 'mat-carousel-test-wrapper-component',
