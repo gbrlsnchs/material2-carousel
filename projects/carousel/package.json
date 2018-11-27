@@ -1,7 +1,16 @@
 {
   "name": "@ngmodule/material-carousel",
-  "version": "0.1.1",
+  "description": "Carousel component for Angular using Material Design.",
+  "version": "0.1.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gbrlsnchs/material2-carousel.git"
+  },
+  "author": "Gabriel Sanches <g@lonemaker.com>",
   "license": "MIT",
+  "homepage": "https://github.com/gbrlsnchs/material2-carousel",
+  "bugs": "https://github.com/gbrlsnchs/material2-carousel/issues",
+  "keywords": ["angular", "material", "carousel", "component", "module"],
   "peerDependencies": {
     "@angular/material": "^7.0.0",
     "rxjs": "~6.3.3"
