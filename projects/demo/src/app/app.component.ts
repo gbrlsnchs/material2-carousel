@@ -94,7 +94,7 @@ import { Component } from '@angular/core';
     </mat-carousel>
 
     <h1>Custom proportion</h1>
-    <mat-carousel [proportion]="25">
+    <mat-carousel [proportion]="50">
       <mat-carousel-slide
         *ngFor="let slide of slides; let i = index"
         [backgroundImage]="'assets/demo' + (i + 1) + '.jpg'"
