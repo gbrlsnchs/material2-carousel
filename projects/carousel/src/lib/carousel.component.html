@@ -15,19 +15,19 @@
   </ul>
 
   <button
-    mat-fab
-    color="primary"
+    mat-icon-button
     *ngIf="showArrows"
     (click)="previous()"
+    [color]="color"
     [disabled]="(awaitAnimation && playing) || (!loop && currentIndex == 0)"
   >
     <mat-icon>arrow_back</mat-icon>
   </button>
   <button
-    mat-fab
-    color="primary"
+    mat-icon-button
     *ngIf="showArrows"
     (click)="next()"
+    [color]="color"
     [disabled]="
       (awaitAnimation && playing) ||
       (!loop && currentIndex == slides.length - 1)
@@ -38,8 +38,8 @@
 
   <div class="carousel-indicators" *ngIf="showIndicators">
     <button
-      mat-raised-button
-      color="primary"
+      mat-mini-fab
+      [color]="color"
       *ngFor="let slide of slides; let i = index"
       [disabled]="i == currentIndex"
       (click)="show(i)"

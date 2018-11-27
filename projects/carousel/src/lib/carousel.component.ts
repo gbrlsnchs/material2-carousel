@@ -49,6 +49,8 @@ export class MatCarouselComponent
   public set maxSlides(value: number) {
     this.todo$.next(value);
   }
+  @Input()
+  public color = 'accent';
 
   // Elements.
   @ContentChildren(MatCarouselSlideComponent)

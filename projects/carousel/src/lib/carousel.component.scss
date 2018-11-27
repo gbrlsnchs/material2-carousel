@@ -46,7 +46,7 @@
     @include centerX();
 
     & > button {
-      @include size(15px);
+      @include size(10px);
       @include space-between();
     }
   }
