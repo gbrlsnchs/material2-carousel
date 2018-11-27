@@ -2,8 +2,9 @@
 
 .carousel-slide {
   @include frame();
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
 
   &-overlay {
     @include frame();
