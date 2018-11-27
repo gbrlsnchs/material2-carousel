@@ -1,27 +1,79 @@
-# Material2Carousel
+# Material Carousel
+[![Build Status](https://travis-ci.org/gbrlsnchs/material2-carousel.svg?branch=master)](https://travis-ci.org/gbrlsnchs/material2-carousel)
+[![npm version](https://badge.fury.io/js/%40ngmodule%2Fmaterial-carousel.svg)](https://badge.fury.io/js/%40ngmodule%2Fmaterial-carousel)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.6.
+## About
+This package is a carousel component for Angular using Material Design.
 
-## Development server
+### Installing
+`npm install --save @ngmodule/material-carousel`
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Importing
+```typescript
+//...
+import { MatCarouselModule } from '@ngmodule/material-carousel';
 
-## Code scaffolding
+@NgModule({
+  // ...
+  imports: [
+    // ...
+    MatCarouselModule,
+    // ...
+  ]
+})
+export class AppModule {}
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Usage
+### `MatCarouselComponent`
+```typescript
+import { MatCarousel, MatCarouselComponent } from '@ngmodule/material-carousel';
+```
+```html
+<mat-carousel>
+  ...
+</mat-carousel>
+```
+#### Attributes
+| Input              |  Type     | Description                                   | Default value     |
+| ------------------ | --------- | --------------------------------------------- | :---------------: |
+| `timings`          | `string`  | Slide animation timings.                      | `'250ms ease-in'` |
+| `loop`             | `boolean` | Enable loop through arrows.                   | `true`            |
+| `autoplay`         | `boolean` | Enable automatic sliding.                     | `true`            |
+| `autoplayInterval` | `number`  | Interval time in milliseconds.                | `5000`            |
+| `showArrows`       | `boolean` | Show navigation arrows.                       | `true`            |
+| `showIndicators`   | `boolean` | Show navigation indicators.                   | `true`            |
+| `awaitAnimation`   | `boolean` | Disable arrows while switching slides.        | `false`           |
+| `proportion`       | `number`  | Height proportion compared to width.          | `25`              |
+| `maxWidth`         | `string`  | Maximum width.                                |                   |
+| `maxSlides`        | `number`  | Maximum slides. Exceeding slides are trimmed. |                   |
+| `color`            | `string`  | Material color values of button elements.     | `'accent'`        |
 
-## Build
+### `MatCarouselSlide`
+```typescript
+import { MatCarouselSlide, MatCarouselSlideComponent } from '@ngmodule/material-carousel';
+```
+```html
+<mat-carousel>
+  <mat-carousel-slide>
+    ...
+  </mat-carousel-slide>
+</mat-carousel>
+```
+#### Attributes
+| Input             | Type      | Description                    | Default value |
+| ----------------- | --------- | ------------------------------ | :-----------: |
+| `backgroundImage` | `string`  | Background image of the slide. |               |
+| `overlayColor`    | `string`  | Color of the slide's overlay.  | `'#00000040'` |
+| `showOverlay`     | `boolean` | Toggle overlay on / off.       | `true`        |
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Contributing
+### How to help
+- For bugs and opinions, please [open an issue](https://github.com/gbrlsnchs/material2-carousel/issues/new)
+- For pushing changes, please [open a pull request](https://github.com/gbrlsnchs/material2-carousel/compare)
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### How to develop and test
+#### Testing
+`ng test carousel --watch false`
+#### Running the demo application
+`ng serve demo --source-map`
