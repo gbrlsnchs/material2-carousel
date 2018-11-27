@@ -1,3 +1,4 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -5,9 +6,11 @@ import {
   ContentChildren,
   ElementRef,
   HostListener,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   QueryList,
   Renderer2,
   ViewChild
@@ -71,7 +74,8 @@ export class MatCarouselComponent
 
   constructor(
     private animationBuilder: AnimationBuilder,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    @Inject(PLATFORM_ID) private platformId
   ) {}
 
   public ngAfterContentInit(): void {
@@ -172,14 +176,29 @@ export class MatCarouselComponent
   }
 
   private isOutOfBounds(): boolean {
-    const el = this.carouselList.nativeElement as HTMLElement;
-    const left = el.getBoundingClientRect().left;
+    const elem = this.carouselList.nativeElement as HTMLElement;
+    const left = elem.getBoundingClientRect().left;
     const lastIndex = this.slides.length - 1;
 
     return (
       (this.currentIndex === 0 && left >= 0) ||
       (this.currentIndex === lastIndex && left <= -this.getWidth() * lastIndex)
     );
+  }
+
+  private isVisible(): boolean {
+    if (!isPlatformBrowser(this.platformId)) {
+      return false;
+    }
+
+    const elem = this.carouselContainer.nativeElement as HTMLElement;
+    const docViewTop = window.pageYOffset;
+    const docViewBottom = docViewTop + window.innerHeight;
+    const elemOffset = elem.getBoundingClientRect();
+    const elemTop = docViewTop + elemOffset.top;
+    const elemBottom = elemTop + elemOffset.height;
+
+    return elemBottom <= docViewBottom && elemTop >= docViewTop;
   }
 
   private getOffset(): number {
@@ -192,8 +211,8 @@ export class MatCarouselComponent
   }
 
   private getWidth(): number {
-    const el = this.carouselContainer.nativeElement as HTMLElement;
-    return el.clientWidth;
+    const elem = this.carouselContainer.nativeElement as HTMLElement;
+    return elem.clientWidth;
   }
 
   private playAnimation(): void {
@@ -206,13 +225,13 @@ export class MatCarouselComponent
         })
       )
     );
-    const el = this.carouselList.nativeElement as HTMLElement;
-    const animation = factory.create(el);
+    const elem = this.carouselList.nativeElement as HTMLElement;
+    const animation = factory.create(elem);
 
     animation.onStart(() => (this.playing = true));
     animation.onDone(() => {
       this.playing = false;
-      this.renderer.setStyle(el, 'transform', translation);
+      this.renderer.setStyle(elem, 'transform', translation);
       animation.destroy();
     });
     animation.play();
@@ -236,7 +255,8 @@ export class MatCarouselComponent
       this.interval$
         .pipe(
           takeUntil(this.stopInterval$),
-          takeUntil(this.ngOnDestroy$)
+          takeUntil(this.ngOnDestroy$),
+          filter(() => this.isVisible())
         )
         .subscribe(() => this.next(true));
     }
