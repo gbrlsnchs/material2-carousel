@@ -158,7 +158,7 @@ export class AppComponent {
   ></mat-carousel-slide>
 </mat-carousel>
       `,
-      carousel: { ...AppComponent.defaultCarousel, awaitAnimation: false },
+      carousel: { ...AppComponent.defaultCarousel, awaitAnimation: true },
       slides: [
         { ...AppComponent.defaultCarouselSlide },
         { ...AppComponent.defaultCarouselSlide },
