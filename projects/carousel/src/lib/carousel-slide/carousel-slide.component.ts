@@ -16,7 +16,7 @@ import { MatCarouselSlide } from './carousel-slide';
 export class MatCarouselSlideComponent implements MatCarouselSlide, OnInit {
   // Attributes.
   @Input()
-  public backgroundImage: string;
+  public image: string;
   @Input()
   public overlayColor = '#00000040';
   @Input()
@@ -27,8 +27,8 @@ export class MatCarouselSlideComponent implements MatCarouselSlide, OnInit {
   public templateRef: TemplateRef<any>;
 
   public ngOnInit(): void {
-    if (this.backgroundImage) {
-      this.backgroundImage = `url("${this.backgroundImage}")`;
+    if (this.image) {
+      this.image = `url("${this.image}")`;
     }
   }
 }

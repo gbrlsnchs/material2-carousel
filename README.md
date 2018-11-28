@@ -61,11 +61,11 @@ import { MatCarouselSlide, MatCarouselSlideComponent } from '@ngmodule/material-
 </mat-carousel>
 ```
 #### Attributes
-| Input             | Type      | Description                    | Default value |
-| ----------------- | --------- | ------------------------------ | :-----------: |
-| `backgroundImage` | `string`  | Background image of the slide. |               |
-| `overlayColor`    | `string`  | Color of the slide's overlay.  | `'#00000040'` |
-| `showOverlay`     | `boolean` | Toggle overlay on / off.       | `true`        |
+| Input          | Type      | Description                   | Default value |
+| -------------- | --------- | ----------------------------- | :-----------: |
+| `image`        | `string`  | Image displayed in the slide. |               |
+| `overlayColor` | `string`  | Color of the slide's overlay. | `'#00000040'` |
+| `showOverlay`  | `boolean` | Toggle overlay on/off.        | `true`        |
 
 ## Contributing
 ### How to help
