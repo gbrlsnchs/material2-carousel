@@ -1,6 +1,7 @@
 # Material Carousel
 [![Build Status](https://travis-ci.org/gbrlsnchs/material2-carousel.svg?branch=master)](https://travis-ci.org/gbrlsnchs/material2-carousel)
 [![npm version](https://badge.fury.io/js/%40ngmodule%2Fmaterial-carousel.svg)](https://badge.fury.io/js/%40ngmodule%2Fmaterial-carousel)
+[![Live demo](https://img.shields.io/badge/demo-page-blue.svg)](https://gbrlsnchs.github.io/material2-carousel/)
 
 ## About
 This package is a carousel component for Angular using Material Design.
