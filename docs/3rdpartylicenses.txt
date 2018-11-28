@@ -374,9 +374,11 @@ MIT
 @angular/platform-browser
 MIT
 
-@angular/material/tooltip
-
 @angular/material/button
+
+@angular/material/snack-bar
+
+@angular/material/tooltip
 
 @ngmodule/material-carousel
 MIT
