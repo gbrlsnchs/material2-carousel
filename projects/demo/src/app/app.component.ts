@@ -73,6 +73,25 @@ export class AppComponent {
       ]
     },
     {
+      header: 'With different autoplay interval',
+      code: `
+<mat-carousel autoplayInterval="2000">
+  <mat-carousel-slide
+    *ngFor="let slide of slides"
+    [image]="slide.image"
+  ></mat-carousel-slide>
+</mat-carousel>
+      `,
+      carousel: { ...AppComponent.defaultCarousel, autoplayInterval: 2000 },
+      slides: [
+        { ...AppComponent.defaultCarouselSlide },
+        { ...AppComponent.defaultCarouselSlide },
+        { ...AppComponent.defaultCarouselSlide },
+        { ...AppComponent.defaultCarouselSlide },
+        { ...AppComponent.defaultCarouselSlide }
+      ]
+    },
+    {
       header: 'No loop',
       code: `
 <mat-carousel [loop]="false">
