@@ -1,0 +1,74 @@
+<mat-toolbar>
+  <span>material2-carousel</span> <span class="toolbar-spacer"></span>
+  <span>
+    <button
+      class="code"
+      mat-raised-button
+      matTooltip="Copied to clipboard!"
+      matTooltipPosition="before"
+      #tooltip="matTooltip"
+      aria-label="Button for copying installation command to clipboard"
+      (mouseenter)="$event.stopImmediatePropagation()"
+      (click)="copy(tooltip)"
+    >
+      <mat-icon>assignment</mat-icon>
+      npm install @ngmodule/material-carousel
+    </button>
+  </span>
+  <span class="source-button">
+    <a
+      href="https://github.com/gbrlsnchs/material2-carousel"
+      target="_blank"
+      mat-raised-button
+      ><mat-icon>code</mat-icon> SOURCE CODE</a
+    >
+  </span>
+</mat-toolbar>
+
+<div class="container">
+  <mat-accordion>
+    <mat-expansion-panel
+      *ngFor="let panel of panels; let i = index"
+      (afterExpand)="matCarousel.show(0)"
+      [expanded]="i == 0"
+    >
+      <mat-expansion-panel-header>
+        {{ panel.header }}
+      </mat-expansion-panel-header>
+      <mat-carousel
+        #matCarousel
+        [timings]="panel.carousel.timings"
+        [loop]="panel.carousel.loop"
+        [autoplay]="panel.carousel.autoplay"
+        [autoplayInterval]="panel.carousel.autoplayInterval"
+        [showArrows]="panel.carousel.showArrows"
+        [showIndicators]="panel.carousel.showIndicators"
+        [awaitAnimation]="panel.carousel.awaitAnimation"
+        [proportion]="panel.carousel.proportion"
+        [maxWidth]="panel.carousel.maxWidth"
+        [maxSlides]="panel.carousel.maxSlides"
+        [color]="panel.carousel.color"
+      >
+        <mat-carousel-slide
+          *ngFor="let slide of panel.slides; let i = index"
+          [image]="'assets/demo' + (i + 1) + '.jpg'"
+          [overlayColor]="slide.overlayColor"
+          [showOverlay]="slide.showOverlay"
+        >
+          <ng-container *ngIf="panel.hasContent">
+            <div
+              style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center"
+            >
+              <h1>Slider #{{ i + 1 }}</h1>
+              <p>This is the text for slider #{{ i + 1 }}</p>
+              <button mat-flat-button>Click me #{{ i + 1 }}</button>
+            </div>
+          </ng-container>
+        </mat-carousel-slide>
+      </mat-carousel>
+      <pre>
+        <code class="code">{{ panel.code }}</code>
+      </pre>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
