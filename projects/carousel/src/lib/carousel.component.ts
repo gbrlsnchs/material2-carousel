@@ -177,7 +177,9 @@ export class MatCarouselComponent
 
   private isOutOfBounds(): boolean {
     const elem = this.carouselList.nativeElement as HTMLElement;
-    const left = elem.getBoundingClientRect().left;
+    const left =
+      elem.getBoundingClientRect().left -
+      elem.offsetParent.getBoundingClientRect().left;
     const lastIndex = this.slides.length - 1;
 
     return (
