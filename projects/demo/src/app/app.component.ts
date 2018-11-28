@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatTooltip } from '@angular/material/tooltip';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCarousel, MatCarouselSlide } from '@ngmodule/material-carousel';
 
 @Component({
@@ -8,7 +8,10 @@ import { MatCarousel, MatCarouselSlide } from '@ngmodule/material-carousel';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private static defaultCarousel: MatCarousel = {
+  private static readonly INSTALL_TEXT =
+    'npm install @ngmodule/material-carousel';
+
+  private static readonly defaultCarousel: MatCarousel = {
     timings: '250ms ease-in',
     loop: true,
     autoplay: true,
@@ -27,7 +30,8 @@ export class AppComponent {
     showOverlay: true
   };
 
-  public readonly installText = 'npm install @ngmodule/material-carousel';
+  constructor(private snackBar: MatSnackBar) {}
+
   public panels: DemoPanel[] = [
     {
       header: 'Default carousel',
@@ -290,9 +294,9 @@ export class AppComponent {
     }
   ];
 
-  public copy(tooltip: MatTooltip): void {
+  public copy(): void {
     const textarea = document.createElement('textarea');
-    textarea.value = this.installText;
+    textarea.value = AppComponent.INSTALL_TEXT;
     textarea.setAttribute('readonly', '');
     textarea.style.position = 'absolute';
     textarea.style.left = '-99999px';
@@ -301,7 +305,10 @@ export class AppComponent {
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
-    tooltip.show();
+
+    this.snackBar.open('Command was successfully copied to clipboard!', '', {
+      duration: 2000
+    });
   }
 }
 

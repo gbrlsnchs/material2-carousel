@@ -4,12 +4,10 @@
     <button
       class="code"
       mat-raised-button
-      matTooltip="Copied to clipboard!"
+      matTooltip="Copy to clipboard"
       matTooltipPosition="before"
-      #tooltip="matTooltip"
       aria-label="Button for copying installation command to clipboard"
-      (mouseenter)="$event.stopImmediatePropagation()"
-      (click)="copy(tooltip)"
+      (click)="copy()"
     >
       <mat-icon>assignment</mat-icon>
       npm install @ngmodule/material-carousel
@@ -66,9 +64,7 @@
           </ng-container>
         </mat-carousel-slide>
       </mat-carousel>
-      <pre>
-        <code class="code">{{ panel.code }}</code>
-      </pre>
+      <pre><code class="code">{{ panel.code }}</code></pre>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
