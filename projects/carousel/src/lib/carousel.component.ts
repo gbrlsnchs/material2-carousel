@@ -112,6 +112,16 @@ export class MatCarouselComponent
     this.show(this.currentIndex + 1);
   }
 
+  @HostListener('mouseenter')
+  public onMouseEnter(): void {
+    this.stopInterval$.next();
+  }
+
+  @HostListener('mouseleave')
+  public onMouseLeave(): void {
+    this.startTimer();
+  }
+
   public onPan(event: any, slideElem: HTMLElement): void {
     let Δx = event.deltaX;
     if (this.isOutOfBounds()) {
@@ -143,6 +153,13 @@ export class MatCarouselComponent
     this.playAnimation();
   }
 
+  @HostListener('window:resize', ['$event'])
+  public onResize(event: Event): void {
+    // Reset carousel when window is resized
+    // in order to avoid major glitches.
+    this.show(0);
+  }
+
   public previous(force = false): void {
     if (this.awaitAnimation && this.playing) {
       return;
@@ -156,23 +173,6 @@ export class MatCarouselComponent
   public show(index: number): void {
     this.setCurrent(index);
     this.playAnimation();
-  }
-
-  @HostListener('mouseenter')
-  public onMouseEnter(): void {
-    this.stopInterval$.next();
-  }
-
-  @HostListener('mouseleave')
-  public onMouseLeave(): void {
-    this.startTimer();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  public onResize(event: Event): void {
-    // Reset carousel when window is resized
-    // in order to avoid major glitches.
-    this.show(0);
   }
 
   private isOutOfBounds(): boolean {
