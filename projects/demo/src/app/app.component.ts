@@ -151,7 +151,7 @@ export class AppComponent {
     {
       header: 'Await animation',
       code: `
-<mat-carousel [awaitAnimation]="false">
+<mat-carousel [awaitAnimation]="true">
   <mat-carousel-slide
     *ngFor="let slide of slides"
     [image]="slide.image"
