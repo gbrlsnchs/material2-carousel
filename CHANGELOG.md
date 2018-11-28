@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2018-11-28
+### Added
+- `hammerjs` to peer dependencies.
+- `docs` folder in order to have a demo at Github Pages.
+
+### Changed
+- Rename `backgroundImage` to `image`.
+
 ## [0.1.3] - 2018-11-27
 ### Fixed
 - Copy license and README file to build directory via `npm run build`.
@@ -29,6 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Angular CLI files.
 - Demo application project.
 
+[0.2.0]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.1.0...v0.1.1
