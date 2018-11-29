@@ -22,7 +22,8 @@ export class AppComponent {
     proportion: 25,
     maxWidth: undefined,
     maxSlides: undefined,
-    color: 'accent'
+    color: 'accent',
+    useMouseWheel: false
   };
   private static defaultCarouselSlide: MatCarouselSlide = {
     image: undefined,
@@ -44,6 +45,25 @@ export class AppComponent {
 </mat-carousel>
       `,
       carousel: { ...AppComponent.defaultCarousel },
+      slides: [
+        { ...AppComponent.defaultCarouselSlide },
+        { ...AppComponent.defaultCarouselSlide },
+        { ...AppComponent.defaultCarouselSlide },
+        { ...AppComponent.defaultCarouselSlide },
+        { ...AppComponent.defaultCarouselSlide }
+      ]
+    },
+    {
+      header: 'With mouse wheel support',
+      code: `
+<mat-carousel [useMouseWheel]="true">
+  <mat-carousel-slide
+    *ngFor="let slide of slides"
+    [image]="slide.image"
+  ></mat-carousel-slide>
+</mat-carousel>
+      `,
+      carousel: { ...AppComponent.defaultCarousel, useMouseWheel: true },
       slides: [
         { ...AppComponent.defaultCarouselSlide },
         { ...AppComponent.defaultCarouselSlide },

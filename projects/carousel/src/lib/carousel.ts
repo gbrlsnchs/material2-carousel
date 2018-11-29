@@ -10,5 +10,5 @@ export interface MatCarousel {
   proportion: number;
   maxSlides: number;
   color: string;
-  mouseWheel: boolean;
+  useMouseWheel: boolean;
 }

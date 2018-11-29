@@ -55,7 +55,7 @@ export class MatCarouselComponent
   @Input()
   public color = 'accent';
   @Input()
-  public mouseWheel = false;
+  public useMouseWheel = false;
 
   // Elements.
   @ContentChildren(MatCarouselSlideComponent)
@@ -123,7 +123,7 @@ export class MatCarouselComponent
 
   @HostListener('mousewheel', ['$event'])
   public onMouseWheel(event: MouseWheelEvent): void {
-    if (this.mouseWheel) {
+    if (this.useMouseWheel) {
       event.preventDefault(); // prevent window to scroll
       const delta = Math.sign(event.wheelDelta);
       if (delta === 0) {
