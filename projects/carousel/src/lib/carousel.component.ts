@@ -54,6 +54,8 @@ export class MatCarouselComponent
   }
   @Input()
   public color = 'accent';
+  @Input()
+  public mouseWheel = false;
 
   // Elements.
   @ContentChildren(MatCarouselSlideComponent)
@@ -102,14 +104,11 @@ export class MatCarouselComponent
     this.interval$ = interval(this.autoplayInterval);
   }
 
-  public next(force = false): void {
-    if (this.awaitAnimation && this.playing) {
-      return;
-    }
+  public next(force = false, awaitAnimation = this.awaitAnimation): void {
     if (!force && !this.loop && this.currentIndex === this.slides.length - 1) {
       return;
     }
-    this.show(this.currentIndex + 1);
+    this.show(this.currentIndex + 1, awaitAnimation);
   }
 
   @HostListener('mouseenter')
@@ -120,6 +119,19 @@ export class MatCarouselComponent
   @HostListener('mouseleave')
   public onMouseLeave(): void {
     this.startTimer();
+  }
+
+  @HostListener('mousewheel', ['$event'])
+  public onMouseWheel(event: MouseWheelEvent): void {
+    if (this.mouseWheel) {
+      event.preventDefault(); // prevent window to scroll
+      const delta = Math.sign(event.wheelDelta);
+      if (delta === 0) {
+        return;
+      }
+
+      delta < 0 ? this.next(false, true) : this.previous(false, true);
+    }
   }
 
   public onPan(event: any, slideElem: HTMLElement): void {
@@ -160,17 +172,18 @@ export class MatCarouselComponent
     this.show(0);
   }
 
-  public previous(force = false): void {
-    if (this.awaitAnimation && this.playing) {
-      return;
-    }
+  public previous(force = false, awaitAnimation = this.awaitAnimation): void {
     if (!force && !this.loop && this.currentIndex === 0) {
       return;
     }
-    this.show(this.currentIndex - 1);
+    this.show(this.currentIndex - 1, awaitAnimation);
   }
 
-  public show(index: number): void {
+  public show(index: number, awaitAnimation = this.awaitAnimation): void {
+    if (awaitAnimation && this.playing) {
+      return;
+    }
+
     this.setCurrent(index);
     this.playAnimation();
   }

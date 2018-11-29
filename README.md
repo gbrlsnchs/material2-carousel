@@ -49,6 +49,7 @@ import { MatCarousel, MatCarouselComponent } from '@ngmodule/material-carousel';
 | `maxWidth`         | `string`  | Maximum width.                                |                   |
 | `maxSlides`        | `number`  | Maximum slides. Exceeding slides are trimmed. |                   |
 | `color`            | `string`  | Material color values of button elements.     | `'accent'`        |
+| `mouseWheel`       | `boolean` | Enable switching slides using mouse wheel.    | `false`           |
 
 ### `MatCarouselSlide`
 ```typescript
