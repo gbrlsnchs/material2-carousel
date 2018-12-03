@@ -1,14 +1,18 @@
 export interface MatCarousel {
+  // Animations.
   timings: string;
-  loop: boolean;
   autoplay: boolean;
-  autoplayInterval: number;
-  showArrows: boolean;
-  showIndicators: boolean;
+  interval: number;
+  // Navigation.
+  loop: boolean;
+  hideArrows: boolean;
+  hideIndicators: boolean;
+  // Appearance.
+  color: string;
   maxWidth: string;
   proportion: number;
-  maxSlides: number;
-  color: string;
+  slides: number;
+  // Accessibility.
   useMouseWheel: boolean;
   useKeyboard: boolean;
   rtl: boolean;

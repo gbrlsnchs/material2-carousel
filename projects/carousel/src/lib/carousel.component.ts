@@ -37,22 +37,23 @@ enum Direction {
 export class MatCarouselComponent
   implements AfterContentInit, AfterViewInit, MatCarousel, OnDestroy, OnInit {
   @Input() public timings = '250ms ease-in';
-  @Input() public loop = true;
   @Input() public autoplay = true;
-  @Input() public autoplayInterval = 5000;
-  @Input() public showArrows = true;
-  @Input() public showIndicators = true;
-  @Input() public proportion = 25;
-  @Input() public maxWidth: string;
+  @Input() public interval = 5000;
+  @Input() public loop = true;
+  @Input() public hideArrows = true;
+  @Input() public hideIndicators = true;
   @Input() public color = 'accent';
+  @Input() public maxWidth: string;
+  @Input() public proportion = 25;
+  @Input()
+  public set slides(value: number) {
+    this.slides$.next(value);
+  }
   @Input() public useMouseWheel = false;
   @Input() public useKeyboard = false;
   @Input() public rtl = false;
-  @Input()
-  public set maxSlides(value: number) {
-    this.maxSlides$.next(value);
-  }
-  @ContentChildren(MatCarouselSlideComponent) public slides: QueryList<
+
+  @ContentChildren(MatCarouselSlideComponent) public slidesList: QueryList<
     MatCarouselSlideComponent
   >;
   @ViewChild('carouselContainer') private carouselContainer: ElementRef<
@@ -63,7 +64,7 @@ export class MatCarouselComponent
 
   private interval$: Observable<number>;
   private intervalStop$ = new Subject<never>();
-  private maxSlides$ = new BehaviorSubject<number>(null);
+  private slides$ = new BehaviorSubject<number>(null);
   private destroy$ = new Subject<never>();
   private playing = false;
 
@@ -74,7 +75,7 @@ export class MatCarouselComponent
   ) {}
 
   public ngAfterContentInit(): void {
-    this.maxSlides$
+    this.slides$
       .pipe(
         takeUntil(this.destroy$),
         filter(n => !!n)
@@ -83,7 +84,7 @@ export class MatCarouselComponent
         this.resetSlides(value);
       });
 
-    this.listKeyManager = new ListKeyManager(this.slides)
+    this.listKeyManager = new ListKeyManager(this.slidesList)
       .withVerticalOrientation(false)
       .withHorizontalOrientation(this.rtl ? 'rtl' : 'ltr')
       .withWrap(this.loop);
@@ -106,7 +107,7 @@ export class MatCarouselComponent
   }
 
   public ngOnInit(): void {
-    this.interval$ = interval(this.autoplayInterval);
+    this.interval$ = interval(this.interval);
   }
 
   public next(): void {
@@ -197,7 +198,7 @@ export class MatCarouselComponent
       (this.carouselList.nativeElement.getBoundingClientRect().left -
         this.carouselList.nativeElement.offsetParent.getBoundingClientRect()
           .left);
-    const lastIndex = this.slides.length - 1;
+    const lastIndex = this.slidesList.length - 1;
     const width = -this.getWidth() * lastIndex;
 
     return (
@@ -274,8 +275,8 @@ export class MatCarouselComponent
     animation.play();
   }
 
-  private resetSlides(maxSlides: number): void {
-    this.slides.reset(this.slides.toArray().slice(0, maxSlides));
+  private resetSlides(slides: number): void {
+    this.slidesList.reset(this.slidesList.toArray().slice(0, slides));
   }
 
   private startTimer(): void {

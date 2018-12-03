@@ -12,7 +12,7 @@
   >
     <li
       #carouselSlide
-      *ngFor="let slide of slides"
+      *ngFor="let slide of slidesList"
       class="carousel-slide"
       role="option"
       [style.padding-bottom]="proportion + '%'"
@@ -26,7 +26,7 @@
   </ul>
 
   <button
-    *ngIf="showArrows"
+    *ngIf="!hideArrows"
     mat-icon-button
     tabindex="-1"
     [color]="color"
@@ -36,24 +36,26 @@
     <mat-icon>arrow_back</mat-icon>
   </button>
   <button
-    *ngIf="showArrows"
+    *ngIf="!hideArrows"
     mat-icon-button
     tabindex="-1"
     [color]="color"
-    [disabled]="!loop && listKeyManager?.activeItemIndex == slides.length - 1"
+    [disabled]="
+      !loop && listKeyManager?.activeItemIndex == slidesList.length - 1
+    "
     (click)="next()"
   >
     <mat-icon>arrow_forward</mat-icon>
   </button>
 
   <div
-    *ngIf="showIndicators"
+    *ngIf="!hideIndicators"
     class="carousel-indicators"
     tabindex="-1"
     [style.flex-direction]="rtl ? 'row-reverse' : 'row'"
   >
     <button
-      *ngFor="let slide of slides; let i = index"
+      *ngFor="let slide of slidesList; let i = index"
       tabindex="-1"
       mat-mini-fab
       [color]="color"

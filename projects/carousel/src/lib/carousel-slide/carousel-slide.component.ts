@@ -18,9 +18,10 @@ export class MatCarouselSlideComponent
   implements ListKeyManagerOption, MatCarouselSlide, OnInit {
   @Input() public image: string;
   @Input() public overlayColor = '#00000040';
-  @Input() public showOverlay = true;
+  @Input() public hideOverlay = false;
+  @Input() public disabled = false; // implements ListKeyManagerOption
+
   @ViewChild(TemplateRef) public templateRef: TemplateRef<any>;
-  public readonly disabled = false; // implements ListKeyManagerOption
 
   public ngOnInit(): void {
     if (this.image) {
