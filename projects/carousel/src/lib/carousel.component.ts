@@ -20,6 +20,7 @@ import { animate, style, AnimationBuilder } from '@angular/animations';
 import { interval, BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
+import { MatCarousel } from './carousel';
 import { MatCarouselSlideComponent } from './carousel-slide/carousel-slide.component';
 
 enum Direction {
@@ -34,7 +35,7 @@ enum Direction {
   styleUrls: ['./carousel.component.scss']
 })
 export class MatCarouselComponent
-  implements AfterContentInit, AfterViewInit, OnDestroy, OnInit {
+  implements AfterContentInit, AfterViewInit, MatCarousel, OnDestroy, OnInit {
   @Input() public timings = '250ms ease-in';
   @Input() public loop = true;
   @Input() public autoplay = true;
