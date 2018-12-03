@@ -1,9 +1,20 @@
-<section class="carousel" #carouselContainer [style.max-width]="maxWidth">
-  <ul class="carousel-list" #carouselList>
+<section
+  #carouselContainer
+  class="carousel"
+  tabindex="0"
+  [style.max-width]="maxWidth"
+>
+  <ul
+    #carouselList
+    class="carousel-list"
+    role="listbox"
+    [style.flex-direction]="rtl ? 'row-reverse' : 'row'"
+  >
     <li
-      class="carousel-slide"
       #carouselSlide
       *ngFor="let slide of slides"
+      class="carousel-slide"
+      role="option"
       [style.padding-bottom]="proportion + '%'"
       (panleft)="onPan($event, carouselSlide)"
       (panright)="onPan($event, carouselSlide)"
@@ -15,36 +26,39 @@
   </ul>
 
   <button
-    mat-icon-button
     *ngIf="showArrows"
-    (click)="previous()"
+    mat-icon-button
     tabindex="-1"
     [color]="color"
-    [disabled]="(awaitAnimation && playing) || (!loop && currentIndex == 0)"
+    [disabled]="!loop && listKeyManager?.activeItemIndex == 0"
+    (click)="previous()"
   >
     <mat-icon>arrow_back</mat-icon>
   </button>
   <button
-    mat-icon-button
     *ngIf="showArrows"
-    (click)="next()"
+    mat-icon-button
     tabindex="-1"
     [color]="color"
-    [disabled]="
-      (awaitAnimation && playing) ||
-      (!loop && currentIndex == slides.length - 1)
-    "
+    [disabled]="!loop && listKeyManager?.activeItemIndex == slides.length - 1"
+    (click)="next()"
   >
     <mat-icon>arrow_forward</mat-icon>
   </button>
 
-  <div class="carousel-indicators" tabindex="-1" *ngIf="showIndicators">
+  <div
+    *ngIf="showIndicators"
+    class="carousel-indicators"
+    tabindex="-1"
+    [style.flex-direction]="rtl ? 'row-reverse' : 'row'"
+  >
     <button
-      mat-mini-fab
       *ngFor="let slide of slides; let i = index"
+      tabindex="-1"
+      mat-mini-fab
       [color]="color"
-      [disabled]="i == currentIndex"
-      (click)="show(i)"
+      [disabled]="i == listKeyManager?.activeItemIndex"
+      (click)="slideTo(i)"
     ></button>
   </div>
 </section>

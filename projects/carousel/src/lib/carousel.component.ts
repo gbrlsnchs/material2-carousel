@@ -1,3 +1,4 @@
+import { ListKeyManager } from '@angular/cdk/a11y';
 import { isPlatformBrowser } from '@angular/common';
 import {
   AfterContentInit,
@@ -19,8 +20,13 @@ import { animate, style, AnimationBuilder } from '@angular/animations';
 import { interval, BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { MatCarousel } from './carousel';
 import { MatCarouselSlideComponent } from './carousel-slide/carousel-slide.component';
+
+enum Direction {
+  Left,
+  Right,
+  Index
+}
 
 @Component({
   selector: 'mat-carousel',
@@ -28,51 +34,37 @@ import { MatCarouselSlideComponent } from './carousel-slide/carousel-slide.compo
   styleUrls: ['./carousel.component.scss']
 })
 export class MatCarouselComponent
-  implements AfterContentInit, AfterViewInit, MatCarousel, OnDestroy, OnInit {
-  // Attributes.
-  @Input()
-  public timings = '250ms ease-in';
-  @Input()
-  public loop = true;
-  @Input()
-  public autoplay = true;
-  @Input()
-  public autoplayInterval = 5000;
-  @Input()
-  public showArrows = true;
-  @Input()
-  public showIndicators = true;
-  @Input()
-  public awaitAnimation = false;
-  @Input()
-  public proportion = 25;
-  @Input()
-  public maxWidth: string;
+  implements AfterContentInit, AfterViewInit, OnDestroy, OnInit {
+  @Input() public timings = '250ms ease-in';
+  @Input() public loop = true;
+  @Input() public autoplay = true;
+  @Input() public autoplayInterval = 5000;
+  @Input() public showArrows = true;
+  @Input() public showIndicators = true;
+  @Input() public proportion = 25;
+  @Input() public maxWidth: string;
+  @Input() public color = 'accent';
+  @Input() public useMouseWheel = false;
+  @Input() public useKeyboard = false;
+  @Input() public rtl = false;
   @Input()
   public set maxSlides(value: number) {
-    this.todo$.next(value);
+    this.maxSlides$.next(value);
   }
-  @Input()
-  public color = 'accent';
-  @Input()
-  public useMouseWheel = false;
-
-  // Elements.
-  @ContentChildren(MatCarouselSlideComponent)
-  public slides: QueryList<MatCarouselSlideComponent>;
-
-  public currentIndex = 0;
-  public playing = false;
-
-  @ViewChild('carouselContainer')
-  private carouselContainer: ElementRef;
-  @ViewChild('carouselList')
-  private carouselList: ElementRef;
+  @ContentChildren(MatCarouselSlideComponent) public slides: QueryList<
+    MatCarouselSlideComponent
+  >;
+  @ViewChild('carouselContainer') private carouselContainer: ElementRef<
+    HTMLDivElement
+  >;
+  @ViewChild('carouselList') private carouselList: ElementRef<HTMLElement>;
+  public listKeyManager: ListKeyManager<MatCarouselSlideComponent>;
 
   private interval$: Observable<number>;
-  private stopInterval$ = new Subject<never>();
-  private todo$ = new BehaviorSubject<number>(null);
-  private ngOnDestroy$ = new Subject<never>();
+  private intervalStop$ = new Subject<never>();
+  private maxSlides$ = new BehaviorSubject<number>(null);
+  private destroy$ = new Subject<never>();
+  private playing = false;
 
   constructor(
     private animationBuilder: AnimationBuilder,
@@ -81,13 +73,25 @@ export class MatCarouselComponent
   ) {}
 
   public ngAfterContentInit(): void {
-    this.todo$
+    this.maxSlides$
       .pipe(
-        takeUntil(this.ngOnDestroy$),
+        takeUntil(this.destroy$),
         filter(n => !!n)
       )
       .subscribe((value: number) => {
         this.resetSlides(value);
+      });
+
+    this.listKeyManager = new ListKeyManager(this.slides)
+      .withVerticalOrientation(false)
+      .withHorizontalOrientation(this.rtl ? 'rtl' : 'ltr')
+      .withWrap(this.loop);
+
+    this.listKeyManager.updateActiveItem(0);
+    this.listKeyManager.change
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(index => {
+        this.playAnimation();
       });
   }
 
@@ -96,24 +100,28 @@ export class MatCarouselComponent
   }
 
   public ngOnDestroy(): void {
-    this.ngOnDestroy$.next();
-    this.ngOnDestroy$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public ngOnInit(): void {
     this.interval$ = interval(this.autoplayInterval);
   }
 
-  public next(force = false, awaitAnimation = this.awaitAnimation): void {
-    if (!force && !this.loop && this.currentIndex === this.slides.length - 1) {
-      return;
+  public next(): void {
+    this.goto(Direction.Right);
+  }
+
+  @HostListener('keyup', ['$event'])
+  public onKeyUp(event: KeyboardEvent): void {
+    if (this.useKeyboard && !this.playing) {
+      this.listKeyManager.onKeydown(event);
     }
-    this.show(this.currentIndex + 1, awaitAnimation);
   }
 
   @HostListener('mouseenter')
   public onMouseEnter(): void {
-    this.stopInterval$.next();
+    this.intervalStop$.next();
   }
 
   @HostListener('mouseleave')
@@ -125,12 +133,13 @@ export class MatCarouselComponent
   public onMouseWheel(event: MouseWheelEvent): void {
     if (this.useMouseWheel) {
       event.preventDefault(); // prevent window to scroll
-      const delta = Math.sign(event.wheelDelta);
-      if (delta === 0) {
-        return;
-      }
+      const Δ = Math.sign(event.wheelDelta);
 
-      delta < 0 ? this.next(false, true) : this.previous(false, true);
+      if (Δ < 0) {
+        this.next();
+      } else if (Δ > 0) {
+        this.previous();
+      }
     }
   }
 
@@ -144,7 +153,7 @@ export class MatCarouselComponent
     this.renderer.setStyle(
       this.carouselList.nativeElement,
       'transform',
-      this.getTranslation(-this.getOffset() + Δx)
+      this.getTranslation(this.getOffset() + Δx)
     );
   }
 
@@ -162,42 +171,37 @@ export class MatCarouselComponent
       this.previous();
       return;
     }
-    this.playAnimation();
+    this.playAnimation(); // slide back, don't change current index
   }
 
   @HostListener('window:resize', ['$event'])
   public onResize(event: Event): void {
     // Reset carousel when window is resized
     // in order to avoid major glitches.
-    this.show(0);
+    this.listKeyManager.setFirstItemActive();
   }
 
-  public previous(force = false, awaitAnimation = this.awaitAnimation): void {
-    if (!force && !this.loop && this.currentIndex === 0) {
-      return;
-    }
-    this.show(this.currentIndex - 1, awaitAnimation);
+  public previous(): void {
+    this.goto(Direction.Left);
   }
 
-  public show(index: number, awaitAnimation = this.awaitAnimation): void {
-    if (awaitAnimation && this.playing) {
-      return;
-    }
-
-    this.setCurrent(index);
-    this.playAnimation();
+  public slideTo(index: number): void {
+    this.goto(Direction.Index, index);
   }
 
   private isOutOfBounds(): boolean {
-    const elem = this.carouselList.nativeElement as HTMLElement;
+    const sign = this.rtl ? -1 : 1;
     const left =
-      elem.getBoundingClientRect().left -
-      elem.offsetParent.getBoundingClientRect().left;
+      sign *
+      (this.carouselList.nativeElement.getBoundingClientRect().left -
+        this.carouselList.nativeElement.offsetParent.getBoundingClientRect()
+          .left);
     const lastIndex = this.slides.length - 1;
+    const width = -this.getWidth() * lastIndex;
 
     return (
-      (this.currentIndex === 0 && left >= 0) ||
-      (this.currentIndex === lastIndex && left <= -this.getWidth() * lastIndex)
+      (this.listKeyManager.activeItemIndex === 0 && left >= 0) ||
+      (this.listKeyManager.activeItemIndex === lastIndex && left <= width)
     );
   }
 
@@ -206,7 +210,7 @@ export class MatCarouselComponent
       return false;
     }
 
-    const elem = this.carouselContainer.nativeElement as HTMLElement;
+    const elem = this.carouselContainer.nativeElement;
     const docViewTop = window.pageYOffset;
     const docViewBottom = docViewTop + window.innerHeight;
     const elemOffset = elem.getBoundingClientRect();
@@ -217,8 +221,9 @@ export class MatCarouselComponent
   }
 
   private getOffset(): number {
-    const offset = this.currentIndex * this.getWidth();
-    return offset;
+    const offset = this.listKeyManager.activeItemIndex * this.getWidth();
+    const sign = this.rtl ? 1 : -1;
+    return sign * offset;
   }
 
   private getTranslation(offset: number): string {
@@ -226,28 +231,44 @@ export class MatCarouselComponent
   }
 
   private getWidth(): number {
-    const elem = this.carouselContainer.nativeElement as HTMLElement;
-    return elem.clientWidth;
+    return this.carouselContainer.nativeElement.clientWidth;
+  }
+
+  private goto(direction: Direction, index?: number): void {
+    if (!this.playing) {
+      switch (direction) {
+        case Direction.Left:
+          return this.rtl
+            ? this.listKeyManager.setNextItemActive()
+            : this.listKeyManager.setPreviousItemActive();
+        case Direction.Right:
+          return this.rtl
+            ? this.listKeyManager.setPreviousItemActive()
+            : this.listKeyManager.setNextItemActive();
+        case Direction.Index:
+          return this.listKeyManager.setActiveItem(index);
+      }
+    }
   }
 
   private playAnimation(): void {
-    const translation = this.getTranslation(-this.getOffset());
+    const translation = this.getTranslation(this.getOffset());
     const factory = this.animationBuilder.build(
-      animate(
-        this.timings,
-        style({
-          transform: translation
-        })
-      )
+      animate(this.timings, style({ transform: translation }))
     );
-    const elem = this.carouselList.nativeElement as HTMLElement;
-    const animation = factory.create(elem);
+    const animation = factory.create(this.carouselList.nativeElement);
 
     animation.onStart(() => (this.playing = true));
     animation.onDone(() => {
+      this.intervalStop$.next();
       this.playing = false;
-      this.renderer.setStyle(elem, 'transform', translation);
+      this.renderer.setStyle(
+        this.carouselList.nativeElement,
+        'transform',
+        translation
+      );
       animation.destroy();
+      this.startTimer();
     });
     animation.play();
   }
@@ -256,24 +277,15 @@ export class MatCarouselComponent
     this.slides.reset(this.slides.toArray().slice(0, maxSlides));
   }
 
-  private setCurrent(index: number) {
-    this.currentIndex =
-      index === this.slides.length
-        ? 0 // start carousel over
-        : index < 0
-        ? this.slides.length - 1 // go to last slide
-        : index;
-  }
-
   private startTimer(): void {
     if (this.autoplay) {
       this.interval$
         .pipe(
-          takeUntil(this.stopInterval$),
-          takeUntil(this.ngOnDestroy$),
+          takeUntil(this.intervalStop$),
+          takeUntil(this.destroy$),
           filter(() => this.isVisible())
         )
-        .subscribe(() => this.next(true));
+        .subscribe(() => this.listKeyManager.setNextItemActive());
     }
   }
 }
