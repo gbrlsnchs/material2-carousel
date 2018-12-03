@@ -2,8 +2,8 @@
   <div class="carousel-slide" [style.background-image]="image">
     <div class="carousel-slide-content"><ng-content></ng-content></div>
     <div
-      class="carousel-slide-overlay"
       *ngIf="showOverlay"
+      class="carousel-slide-overlay"
       [style.background-color]="overlayColor"
     ></div>
   </div>
