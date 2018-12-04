@@ -1,3 +1,7 @@
+import { ThemePalette } from '@angular/material';
+
+export type Orientation = 'ltr' | 'rtl';
+
 export interface MatCarousel {
   // Animations.
   timings: string;
@@ -8,12 +12,12 @@ export interface MatCarousel {
   hideArrows: boolean;
   hideIndicators: boolean;
   // Appearance.
-  color: string;
+  color: ThemePalette;
   maxWidth: string;
   proportion: number;
   slides: number;
   // Accessibility.
-  useMouseWheel: boolean;
   useKeyboard: boolean;
-  rtl: boolean;
+  useMouseWheel: boolean;
+  orientation: Orientation;
 }

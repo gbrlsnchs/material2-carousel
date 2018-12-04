@@ -1,4 +1,4 @@
-<section
+<div
   #carouselContainer
   class="carousel"
   tabindex="0"
@@ -8,7 +8,7 @@
     #carouselList
     class="carousel-list"
     role="listbox"
-    [style.flex-direction]="rtl ? 'row-reverse' : 'row'"
+    [style.flex-direction]="orientation === 'rtl' ? 'row-reverse' : 'row'"
   >
     <li
       #carouselSlide
@@ -30,7 +30,7 @@
     mat-icon-button
     tabindex="-1"
     [color]="color"
-    [disabled]="!loop && listKeyManager?.activeItemIndex == 0"
+    [disabled]="!loop && currentIndex == 0"
     (click)="previous()"
   >
     <mat-icon>arrow_back</mat-icon>
@@ -40,9 +40,7 @@
     mat-icon-button
     tabindex="-1"
     [color]="color"
-    [disabled]="
-      !loop && listKeyManager?.activeItemIndex == slidesList.length - 1
-    "
+    [disabled]="!loop && currentIndex == slidesList.length - 1"
     (click)="next()"
   >
     <mat-icon>arrow_forward</mat-icon>
@@ -52,15 +50,15 @@
     *ngIf="!hideIndicators"
     class="carousel-indicators"
     tabindex="-1"
-    [style.flex-direction]="rtl ? 'row-reverse' : 'row'"
+    [style.flex-direction]="orientation === 'rtl' ? 'row-reverse' : 'row'"
   >
     <button
       *ngFor="let slide of slidesList; let i = index"
       tabindex="-1"
       mat-mini-fab
       [color]="color"
-      [disabled]="i == listKeyManager?.activeItemIndex"
+      [disabled]="i == currentIndex"
       (click)="slideTo(i)"
     ></button>
   </div>
-</section>
+</div>
