@@ -37,16 +37,27 @@ enum Direction {
 export class MatCarouselComponent
   implements AfterContentInit, AfterViewInit, MatCarousel, OnDestroy {
   @Input() public timings = '250ms ease-in';
+
   @Input()
   public set autoplay(value: boolean) {
     this.autoplay$.next(value);
     this._autoplay = value;
   }
+
   @Input()
   public set interval(value: number) {
     this.interval$.next(value);
   }
-  @Input() public loop = true;
+
+  public get loop(): boolean {
+    return this._loop;
+  }
+  @Input()
+  public set loop(value: boolean) {
+    this.loop$.next(value);
+    this._loop = value;
+  }
+
   @Input() public hideArrows = true;
   @Input() public hideIndicators = true;
   @Input() public color: ThemePalette = 'accent';
@@ -61,10 +72,12 @@ export class MatCarouselComponent
   }
 
   @Input() public proportion = 25;
+
   @Input()
   public set slides(value: number) {
     this.slides$.next(value);
   }
+
   @Input() public useKeyboard = false;
   @Input() public useMouseWheel = false;
 
@@ -110,6 +123,9 @@ export class MatCarouselComponent
   private _maxWidth = 'auto';
   private maxWidth$ = new Subject<never>();
 
+  private _loop = true;
+  private loop$ = new Subject<boolean>();
+
   private _orientation: Orientation = 'ltr';
   private orientation$ = new Subject<Orientation>();
 
@@ -129,7 +145,7 @@ export class MatCarouselComponent
     this.listKeyManager = new ListKeyManager(this.slidesList)
       .withVerticalOrientation(false)
       .withHorizontalOrientation(this._orientation)
-      .withWrap(this.loop);
+      .withWrap(this._loop);
 
     this.listKeyManager.updateActiveItem(0);
     this.listKeyManager.change
@@ -152,6 +168,10 @@ export class MatCarouselComponent
     this.maxWidth$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.slideTo(0));
+
+    this.loop$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(value => this.listKeyManager.withWrap(value));
 
     this.orientation$
       .pipe(takeUntil(this.destroy$))
