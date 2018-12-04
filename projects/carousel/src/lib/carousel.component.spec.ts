@@ -52,12 +52,12 @@ describe('MatCarouselComponent', () => {
   });
 
   it('should have 5 children', () => {
-    expect(component.slides.length).toBe(5);
+    expect(component.slidesList.length).toBe(5);
   });
 
   it('should adjust itself to have 3 children', () => {
-    component.maxSlides = 3;
-    expect(component.slides.length).toBe(3);
+    component.slides = 3;
+    expect(component.slidesList.length).toBe(3);
   });
 
   it('should change index to 1', () => {
@@ -66,12 +66,12 @@ describe('MatCarouselComponent', () => {
   });
 
   it('should change index to last element', () => {
-    component.show(component.slides.length - 1);
+    component.slideTo(component.slidesList.length - 1);
     expect(component.currentIndex).toBe(4);
   });
 
   it('should go from last to first slide', () => {
-    component.show(component.slides.length - 1);
+    component.slideTo(component.slidesList.length - 1);
     component.next();
     expect(component.currentIndex).toBe(0);
   });
