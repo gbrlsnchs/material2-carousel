@@ -6,6 +6,8 @@
 ## About
 This package is a carousel component for Angular using Material Design.
 
+Until `v1` is reached, breaking changes may be introduced.
+
 ### Installing
 `npm install --save @ngmodule/material-carousel`
 
