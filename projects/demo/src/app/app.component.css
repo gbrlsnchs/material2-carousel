@@ -28,3 +28,7 @@
 .demo-margin:first-of-type {
   margin-left: 0;
 }
+
+.demo-carousel {
+  margin-top: 16px;
+}
