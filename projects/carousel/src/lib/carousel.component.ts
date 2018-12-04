@@ -50,7 +50,16 @@ export class MatCarouselComponent
   @Input() public hideArrows = true;
   @Input() public hideIndicators = true;
   @Input() public color: ThemePalette = 'accent';
-  @Input() public maxWidth: string;
+
+  public get maxWidth(): string {
+    return this._maxWidth;
+  }
+  @Input()
+  public set maxWidth(value: string) {
+    this._maxWidth = value;
+    this.maxWidth$.next();
+  }
+
   @Input() public proportion = 25;
   @Input()
   public set slides(value: number) {
@@ -98,6 +107,9 @@ export class MatCarouselComponent
   private interval$ = new BehaviorSubject<number>(5000);
   private slides$ = new BehaviorSubject<number>(null);
 
+  private _maxWidth = 'auto';
+  private maxWidth$ = new Subject<never>();
+
   private _orientation: Orientation = 'ltr';
   private orientation$ = new Subject<Orientation>();
 
@@ -136,6 +148,10 @@ export class MatCarouselComponent
       this.resetTimer(value);
       this.startTimer(this._autoplay);
     });
+
+    this.maxWidth$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.slideTo(0));
 
     this.orientation$
       .pipe(takeUntil(this.destroy$))
@@ -201,7 +217,7 @@ export class MatCarouselComponent
   public onResize(event: Event): void {
     // Reset carousel when window is resized
     // in order to avoid major glitches.
-    this.listKeyManager.setFirstItemActive();
+    this.slideTo(0);
   }
 
   public onPan(event: any, slideElem: HTMLElement): void {
