@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, QueryList, ViewChildren } from '@angular/core';
+import { ThemePalette } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatCarousel, MatCarouselSlide } from '@ngmodule/material-carousel';
+import {
+  MatCarouselSlideComponent,
+  Orientation
+} from '@ngmodule/material-carousel';
 
 @Component({
   selector: 'app-root',
@@ -11,327 +15,69 @@ export class AppComponent {
   private static readonly INSTALL_TEXT =
     'npm install @ngmodule/material-carousel';
 
-  private static readonly defaultCarousel: MatCarousel = {
-    timings: '250ms ease-in',
-    loop: true,
-    autoplay: true,
-    autoplayInterval: 5000,
-    showArrows: true,
-    showIndicators: true,
-    awaitAnimation: false,
-    proportion: 25,
-    maxWidth: undefined,
-    maxSlides: undefined,
-    color: 'accent',
-    useMouseWheel: false
-  };
-  private static defaultCarouselSlide: MatCarouselSlide = {
-    image: undefined,
-    overlayColor: '#00000040',
-    showOverlay: true
-  };
+  public slidesList = new Array<never>(5);
+  public showContent = false;
 
-  constructor(private snackBar: MatSnackBar) {}
+  public timings = '250ms ease-in';
+  public autoplay = true;
+  public interval = 5000;
+  public loop = true;
+  public hideArrows = false;
+  public hideIndicators = false;
+  public color: ThemePalette = 'accent';
+  public maxWidth = 'auto';
+  public proportion = 25;
+  public slides = this.slidesList.length;
+  public overlayColor = '#00000040';
+  public hideOverlay = false;
+  public useKeyboard = true;
+  public useMouseWheel = false;
+  public orientation: Orientation = 'ltr';
 
-  public panels: DemoPanel[] = [
-    {
-      header: 'Default carousel',
-      code: `
-<mat-carousel>
+  @ViewChildren(MatCarouselSlideComponent) public carouselSlides: QueryList<
+    MatCarouselSlideComponent
+  >;
+
+  public get code(): string {
+    return `
+<mat-carousel
+  timings="${this.timings}"
+  [autoplay]="${this.autoplay}"
+  interval="${this.interval}"
+  [loop]="${this.loop}"
+  [hideArrows]="${this.hideArrows}"
+  [hideIndicators]="${this.hideIndicators}"
+  [useKeyboard]="${this.useKeyboard}"
+  [useMouseWheel]="${this.useMouseWheel}"
+  orientation="${this.orientation}"
+>
   <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    },
-    {
-      header: 'With mouse wheel support',
-      code: `
-<mat-carousel [useMouseWheel]="true">
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel, useMouseWheel: true },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    },
-    {
-      ...AppComponent.defaultCarousel,
-      header: 'No autoplay',
-      code: `
-<mat-carousel [autoplay]="false">
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel, autoplay: false },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    },
-    {
-      header: 'With different autoplay interval',
-      code: `
-<mat-carousel autoplayInterval="2000">
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel, autoplayInterval: 2000 },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    },
-    {
-      header: 'No loop',
-      code: `
-<mat-carousel [loop]="false">
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel, loop: false },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    },
-    {
-      header: 'No arrows',
-      code: `
-<mat-carousel [showArrows]="false">
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel, showArrows: false },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    },
-    {
-      header: 'No indicators',
-      code: `
-<mat-carousel [showIndicators]="false">
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel, showIndicators: false },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    },
-    {
-      header: 'Await animation',
-      code: `
-<mat-carousel [awaitAnimation]="true">
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel, awaitAnimation: true },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    },
-    {
-      header: 'Different overlay color',
-      code: `
-<mat-carousel>
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-    overlayColor="#ff000040"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide, overlayColor: '#ff000040' },
-        { ...AppComponent.defaultCarouselSlide, overlayColor: '#ff000040' },
-        { ...AppComponent.defaultCarouselSlide, overlayColor: '#ff000040' },
-        { ...AppComponent.defaultCarouselSlide, overlayColor: '#ff000040' },
-        { ...AppComponent.defaultCarouselSlide, overlayColor: '#ff000040' }
-      ]
-    },
-    {
-      header: 'No overlay',
-      code: `
-<mat-carousel>
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-    [showOverlay]="false"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide, showOverlay: false },
-        { ...AppComponent.defaultCarouselSlide, showOverlay: false },
-        { ...AppComponent.defaultCarouselSlide, showOverlay: false },
-        { ...AppComponent.defaultCarouselSlide, showOverlay: false },
-        { ...AppComponent.defaultCarouselSlide, showOverlay: false }
-      ]
-    },
-    {
-      header: 'With custom content',
-      code: `
-<mat-carousel>
-  <mat-carousel-slide
+    #matCarouselSlide
     *ngFor="let slide of slides; let i = index"
     [image]="slide.image"
-  >
+    overlayColor="${this.overlayColor}"
+    [hideOverlay]="${this.hideOverlay}"
+  >${this.showContent ? this.innerCode : ''}</mat-carousel-slide>
+</mat-carousel>
+    `;
+  }
+
+  private innerCode = `
     <div
       style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center"
     >
-      <h1>Slider #{{ i + 1 }}</h1>
-      <p>This is the text for slider #{{ i + 1 }}</p>
-      <button mat-flat-button>Click me #{{ i + 1 }}</button>
+      <h1>{{ i }}</h1>
+      <p>disabled: {{ matCarouselSlide.disabled }}</p>
+      <button
+        mat-flat-button
+        (click)="matCarouselSlide.disabled = !matCarouselSlide.disabled"
+      >
+        Click me!
+      </button>
     </div>
-  </mat-carousel-slide>
-</mat-carousel>
-      `,
-      hasContent: true,
-      carousel: { ...AppComponent.defaultCarousel },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    },
-    {
-      header: 'With limit of slides',
-      code: `
-<mat-carousel maxSlides="3">
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel, maxSlides: 3 },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    },
-    {
-      header: 'With custom proportion',
-      code: `
-<mat-carousel proportion="50">
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel, proportion: 50 },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    },
-    {
-      header: 'With maximum width',
-      code: `
-<mat-carousel maxWidth="720px">
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel, maxWidth: '720px' },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    },
-    {
-      header: 'With another color',
-      code: `
-<mat-carousel color="primary">
-  <mat-carousel-slide
-    *ngFor="let slide of slides"
-    [image]="slide.image"
-  ></mat-carousel-slide>
-</mat-carousel>
-      `,
-      carousel: { ...AppComponent.defaultCarousel, color: 'primary' },
-      slides: [
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide },
-        { ...AppComponent.defaultCarouselSlide }
-      ]
-    }
-  ];
+  `;
+
+  constructor(private snackBar: MatSnackBar) {}
 
   public copy(): void {
     const textarea = document.createElement('textarea');
@@ -349,12 +95,8 @@ export class AppComponent {
       duration: 2000
     });
   }
-}
 
-interface DemoPanel {
-  header: string;
-  code: string;
-  hasContent?: boolean;
-  carousel: MatCarousel;
-  slides: MatCarouselSlide[];
+  public resetSlides(): void {
+    this.carouselSlides.forEach(item => (item.disabled = false));
+  }
 }

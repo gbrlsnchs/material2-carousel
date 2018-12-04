@@ -68,7 +68,7 @@
               "projects/demo/src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "projects/demo/src/styles.css"
             ],
             "scripts": []

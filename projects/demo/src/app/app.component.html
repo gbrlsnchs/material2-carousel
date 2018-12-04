@@ -24,48 +24,154 @@
 </mat-toolbar>
 
 <div class="container">
-  <mat-accordion>
-    <mat-expansion-panel
-      *ngFor="let panel of panels; let i = index"
-      (afterExpand)="matCarousel.show(0)"
-      [expanded]="i == 0"
-    >
-      <mat-expansion-panel-header>
-        {{ panel.header }}
-      </mat-expansion-panel-header>
+  <mat-card>
+    <mat-card-content>
+      <h2>Carousel configuration</h2>
+
+      <section class="demo-section">
+        <label class="demo-margin">Animations:</label>
+        <mat-form-field class="demo-margin">
+          <input matInput placeholder="Timings" [(ngModel)]="timings" />
+        </mat-form-field>
+        <mat-checkbox class="demo-margin" [(ngModel)]="autoplay"
+          >Autoplay</mat-checkbox
+        >
+        <mat-form-field class="demo-margin">
+          <input
+            matInput
+            type="number"
+            min="1"
+            placeholder="Interval"
+            [(ngModel)]="interval"
+          />
+        </mat-form-field>
+      </section>
+
+      <section class="demo-section">
+        <label class="demo-margin">Appearance:</label>
+        <mat-form-field class="demo-margin">
+          <mat-select placeholder="Color" [(value)]="color">
+            <mat-option value="primary">Primary</mat-option>
+            <mat-option value="accent">Accent</mat-option>
+            <mat-option value="warn">Warn</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="demo-margin">
+          <input matInput placeholder="Maximum width" [(ngModel)]="maxWidth" />
+        </mat-form-field>
+
+        <mat-form-field class="demo-margin">
+          <input
+            matInput
+            type="number"
+            min="1"
+            placeholder="Proportion"
+            [(ngModel)]="proportion"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="demo-margin">
+          <input
+            matInput
+            type="number"
+            placeholder="Slides"
+            [(ngModel)]="slides"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="demo-margin">
+          <input
+            matInput
+            placeholder="Overlay color"
+            [(ngModel)]="overlayColor"
+          />
+        </mat-form-field>
+
+        <mat-checkbox class="demo-margin" [(ngModel)]="hideOverlay"
+          >Hide overlay</mat-checkbox
+        >
+      </section>
+
+      <section class="demo-section">
+        <label class="demo-margin">Navigation:</label>
+        <mat-checkbox class="demo-margin" [(ngModel)]="loop">Loop</mat-checkbox>
+        <mat-checkbox class="demo-margin" [(ngModel)]="hideArrows"
+          >Hide arrows</mat-checkbox
+        >
+        <mat-checkbox class="demo-margin" [(ngModel)]="hideIndicators"
+          >Hide indicators</mat-checkbox
+        >
+      </section>
+
+      <section class="demo-section">
+        <label class="demo-margin">Accessibility:</label>
+        <mat-checkbox class="demo-margin" [(ngModel)]="useKeyboard"
+          >Use keyboard</mat-checkbox
+        >
+        <mat-checkbox class="demo-margin" [(ngModel)]="useMouseWheel"
+          >Use mouse wheel</mat-checkbox
+        >
+        <mat-form-field>
+          <mat-select
+            placeholder="Orientation"
+            [(value)]="orientation"
+            (selectionChange)="matCarousel.slideTo(0)"
+          >
+            <mat-option value="ltr">Left to right</mat-option>
+            <mat-option value="rtl">Right to left</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+
+      <section class="demo-section">
+        <label class="demo-margin">Custom:</label>
+        <mat-checkbox class="demo-margin" [(ngModel)]="showContent">
+          Show custom content
+        </mat-checkbox>
+      </section>
+
       <mat-carousel
         #matCarousel
-        [timings]="panel.carousel.timings"
-        [loop]="panel.carousel.loop"
-        [autoplay]="panel.carousel.autoplay"
-        [autoplayInterval]="panel.carousel.autoplayInterval"
-        [showArrows]="panel.carousel.showArrows"
-        [showIndicators]="panel.carousel.showIndicators"
-        [awaitAnimation]="panel.carousel.awaitAnimation"
-        [proportion]="panel.carousel.proportion"
-        [maxWidth]="panel.carousel.maxWidth"
-        [maxSlides]="panel.carousel.maxSlides"
-        [color]="panel.carousel.color"
-        [useMouseWheel]="panel.carousel.useMouseWheel"
+        [timings]="timings"
+        [autoplay]="autoplay"
+        [interval]="interval"
+        [loop]="loop"
+        [hideArrows]="hideArrows"
+        [hideIndicators]="hideIndicators"
+        [color]="color"
+        [maxWidth]="maxWidth"
+        [proportion]="proportion"
+        [useKeyboard]="useKeyboard"
+        [useMouseWheel]="useMouseWheel"
+        [orientation]="orientation"
+        [slides]="slides"
       >
         <mat-carousel-slide
-          *ngFor="let slide of panel.slides; let i = index"
-          [image]="'assets/demo' + (i + 1) + '.jpg'"
-          [overlayColor]="slide.overlayColor"
-          [showOverlay]="slide.showOverlay"
+          #matCarouselSlide
+          *ngFor="let slide of slidesList; let i = index"
+          image="assets/demo.png"
+          [overlayColor]="overlayColor"
+          [hideOverlay]="hideOverlay"
         >
-          <ng-container *ngIf="panel.hasContent">
+          <ng-container *ngIf="showContent">
             <div
               style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center"
             >
-              <h1>Slider #{{ i + 1 }}</h1>
-              <p>This is the text for slider #{{ i + 1 }}</p>
-              <button mat-flat-button>Click me #{{ i + 1 }}</button>
+              <h1>{{ i }}</h1>
+              <p>disabled: {{ matCarouselSlide.disabled }}</p>
+              <button
+                mat-flat-button
+                (click)="matCarouselSlide.disabled = !matCarouselSlide.disabled"
+              >
+                Click me!
+              </button>
             </div>
           </ng-container>
         </mat-carousel-slide>
       </mat-carousel>
-      <pre><code class="code">{{ panel.code }}</code></pre>
-    </mat-expansion-panel>
-  </mat-accordion>
+
+      <pre><code class="code">{{ code }}</code></pre>
+    </mat-card-content>
+  </mat-card>
 </div>
