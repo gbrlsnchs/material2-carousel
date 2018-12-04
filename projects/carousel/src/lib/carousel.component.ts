@@ -40,6 +40,7 @@ export class MatCarouselComponent
   @Input()
   public set autoplay(value: boolean) {
     this.autoplay$.next(value);
+    this._autoplay = value;
   }
   @Input()
   public set interval(value: number) {
@@ -64,6 +65,7 @@ export class MatCarouselComponent
   @Input()
   public set orientation(value: Orientation) {
     this.orientation$.next(value);
+    this._orientation = value;
   }
 
   public get currentIndex(): number {
@@ -127,7 +129,6 @@ export class MatCarouselComponent
     this.autoplay$.pipe(takeUntil(this.destroy$)).subscribe(value => {
       this.stopTimer();
       this.startTimer(value);
-      this._autoplay = value;
     });
 
     this.interval$.pipe(takeUntil(this.destroy$)).subscribe(value => {
@@ -136,10 +137,9 @@ export class MatCarouselComponent
       this.startTimer(this._autoplay);
     });
 
-    this.orientation$.pipe(takeUntil(this.destroy$)).subscribe(value => {
-      this.listKeyManager.withHorizontalOrientation(value);
-      this._orientation = value;
-    });
+    this.orientation$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(value => this.listKeyManager.withHorizontalOrientation(value));
 
     this.slides$
       .pipe(
