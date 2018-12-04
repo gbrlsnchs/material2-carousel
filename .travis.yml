@@ -2,21 +2,27 @@ os:
   - linux
   - osx
 sudo: false
-
 language: node_js
 node_js:
   - "10"
-
 addons:
   firefox: latest
   chrome: stable
-
 cache:
   directories:
-    - ./node_modules
-
+    - "./node_modules"
 install:
   - npm install
-
 script:
   - npm run test -- carousel --watch false
+before_deploy:
+  - npm run build
+  - cd dist/carousel
+deploy:
+  provider: npm
+  email: g@lonemaker.com
+  api_key:
+    secure: TBFaEu1QkJ3bQNHOWox4ednyhzHmfwkAuS6TPaFm+dyE8nlwxEFXkg+wTbcVAJfa34t7U73LqzIyQaXTHISa/b2/tOKWxx0qsAMh77ozJdHrpcN18IIz94QSGerbV/xfj4enPHffMGeheJwHzHvM/SNQeq1ewEZGX+gqFJGexSNAvR8grnq17G1D275TSxBE0gevNG7VUySZRBF2ANsutoSePBAc6qy933918OiK1f5uMI+0gfMnPY9UkABqTypykmsoUMI2OAous85q2V4x42ZGECMoniHtjC8hqrvYtwtc2eIFfrfZOS/IrW7PvHWK0Q/eHg7N6PsqPRHm/82MiKQKXUmcqbPrRioN75z6x5x/6Af0xIoGfF+BQqcta8LlalTqZaW/nittlJbFlygLC5tGbHcFkAESeauRYt2bhFDOv5I+AX3vBAWY9znrmTJT0JM/9qJq3tJPtV3XEFnm+qbFSYlIfle7/kXrRKm0/7rO1vNPOm6g+1Sj2Z02m79IxdFSL1qtUg4uh3NwhoTBC6xYzza2m75Drdcgj99/PxlWlV/QcjAX2a52yXKiEyUBh/RnpICvyfAyYTgjT9vXBP0srmQt2SJsRGpRAJoe1sTQpeIQFS3HjVzouOhzAz4CMKEaElFbiUM9g+ky/KRTdKydBcXaWdeGaMsFpnSxGwY=
+  on:
+    tags: true
+    repo: gbrlsnchs/material2-carousel
