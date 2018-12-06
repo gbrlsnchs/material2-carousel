@@ -20,7 +20,7 @@
     "plugins": [
       { "name": "@angular/language-service" },
       {
-        "name": "tslint-language-service",
+        "name": "typescript-tslint-plugin",
         "alwaysShowRuleFailuresAsWarnings": true
       }
     ]
