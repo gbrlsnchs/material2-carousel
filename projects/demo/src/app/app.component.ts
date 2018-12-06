@@ -38,6 +38,7 @@ export class AppComponent {
   @ViewChildren(MatCarouselSlideComponent) public carouselSlides: QueryList<
     MatCarouselSlideComponent
   >;
+  public darkMode = false;
 
   public get code(): string {
     return `
@@ -67,7 +68,6 @@ export class AppComponent {
     `;
   }
 
-  private darkMode = false;
   private innerCode = `
     <div
       style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center"
