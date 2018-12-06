@@ -1,9 +1,12 @@
 <mat-toolbar>
-  <span>material2-carousel</span> <span class="toolbar-spacer"></span>
+  <span>material2-carousel</span>
+
+  <span class="demo-spacer"></span>
+
   <span>
     <button
-      class="code"
-      mat-raised-button
+      class="demo-code"
+      mat-button
       matTooltip="Copy to clipboard"
       matTooltipPosition="before"
       aria-label="Button for copying installation command to clipboard"
@@ -13,17 +16,30 @@
       npm install @ngmodule/material-carousel
     </button>
   </span>
-  <span class="source-button">
-    <a
-      href="https://github.com/gbrlsnchs/material2-carousel"
-      target="_blank"
-      mat-raised-button
-      ><mat-icon>code</mat-icon> SOURCE CODE</a
-    >
+
+  <span class="demo-source">
+    <button mat-button [matMenuTriggerFor]="demoMenu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #demoMenu="matMenu">
+      <a
+        href="https://github.com/gbrlsnchs/material2-carousel"
+        target="_blank"
+        mat-menu-item
+      >
+        <mat-icon>code</mat-icon>Source code
+      </a>
+      <button mat-menu-item (click)="toggleTheme()">
+        <mat-icon>
+          {{ darkMode ? "invert_colors_off" : "invert_colors" }}
+        </mat-icon>
+        Toggle theme
+      </button>
+    </mat-menu>
   </span>
 </mat-toolbar>
 
-<div class="container">
+<div class="demo-container mat-app-background">
   <mat-card>
     <mat-card-content>
       <mat-accordion>
@@ -195,7 +211,7 @@
         </mat-carousel>
       </div>
 
-      <pre><code class="code">{{ code }}</code></pre>
+      <pre><code class="demo-code">{{ code }}</code></pre>
     </mat-card-content>
   </mat-card>
 </div>

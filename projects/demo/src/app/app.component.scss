@@ -1,0 +1,36 @@
+.demo {
+  &-code {
+    font-family: "Roboto Mono";
+  }
+
+  &-container {
+    padding: 15px;
+  }
+
+  &-source {
+    margin-left: 15px;
+  }
+
+  &-spacer {
+    flex: 1 1 auto;
+  }
+
+  &-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 50px;
+  }
+
+  &-margin {
+    margin: 0 10px;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+  }
+
+  &-carousel {
+    margin-top: 16px;
+  }
+}

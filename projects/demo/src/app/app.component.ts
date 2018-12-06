@@ -1,4 +1,5 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { ThemePalette } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
@@ -9,7 +10,7 @@ import {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   private static readonly INSTALL_TEXT =
@@ -66,6 +67,7 @@ export class AppComponent {
     `;
   }
 
+  private darkMode = false;
   private innerCode = `
     <div
       style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center"
@@ -81,7 +83,29 @@ export class AppComponent {
     </div>
   `;
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private overlayContainer: OverlayContainer,
+    private elementRef: ElementRef<HTMLElement>
+  ) {}
+
+  public toggleTheme(): void {
+    this.darkMode = !this.darkMode;
+
+    const elems = [
+      this.elementRef.nativeElement,
+      this.overlayContainer.getContainerElement()
+    ];
+
+    for (const elem of elems) {
+      if (this.darkMode) {
+        elem.classList.add('demo-dark-theme');
+        continue;
+      }
+
+      elem.classList.remove('demo-dark-theme');
+    }
+  }
 
   public copy(): void {
     const textarea = document.createElement('textarea');
