@@ -299,7 +299,7 @@ export class MatCarouselComponent
     const elemTop = docViewTop + elemOffset.top;
     const elemBottom = elemTop + elemOffset.height;
 
-    return elemBottom <= docViewBottom && elemTop >= docViewTop;
+    return elemBottom <= docViewBottom || elemTop >= docViewTop;
   }
 
   private getOffset(): number {
