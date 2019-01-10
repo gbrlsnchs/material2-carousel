@@ -21,6 +21,7 @@ $demo-warn: mat-palette($mat-pink);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $demo-light-theme: mat-light-theme($demo-primary, $demo-accent, $demo-warn);
+$demo-dark-theme: mat-dark-theme($demo-primary, $demo-accent, $demo-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -28,7 +29,6 @@ $demo-light-theme: mat-light-theme($demo-primary, $demo-accent, $demo-warn);
 @include angular-material-theme($demo-light-theme);
 
 .demo-dark-theme {
-  $demo-dark-theme: mat-dark-theme($demo-primary, $demo-accent, $demo-warn);
   @include angular-material-theme($demo-dark-theme);
 }
 
