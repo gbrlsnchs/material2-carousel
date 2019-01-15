@@ -1,5 +1,6 @@
 <ng-template>
-  <div class="carousel-slide" [style.background-image]="image">
+  <div>
+    <span class="carousel-slide" role="img" [attr.aria-label]="image.altText ? image.altText : null" [style.background-image]="image.url"></span>
     <div class="carousel-slide-content"><ng-content></ng-content></div>
     <div
       *ngIf="!hideOverlay"

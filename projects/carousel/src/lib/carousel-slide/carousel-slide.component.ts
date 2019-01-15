@@ -7,7 +7,7 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { MatCarouselSlide } from './carousel-slide';
+import { MatCarouselSlide, MatCarouselImage } from './carousel-slide';
 
 @Component({
   selector: 'mat-carousel-slide',
@@ -16,7 +16,7 @@ import { MatCarouselSlide } from './carousel-slide';
 })
 export class MatCarouselSlideComponent
   implements ListKeyManagerOption, MatCarouselSlide, OnInit {
-  @Input() public image: string;
+  @Input() public image: MatCarouselImage;
   @Input() public overlayColor = '#00000040';
   @Input() public hideOverlay = false;
   @Input() public disabled = false; // implements ListKeyManagerOption
@@ -24,8 +24,8 @@ export class MatCarouselSlideComponent
   @ViewChild(TemplateRef) public templateRef: TemplateRef<any>;
 
   public ngOnInit(): void {
-    if (this.image) {
-      this.image = `url("${this.image}")`;
+    if (this.image && this.image.url) {
+      this.image.url = `url("${this.image.url}")`;
     }
   }
 }
