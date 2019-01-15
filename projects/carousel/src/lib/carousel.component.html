@@ -33,7 +33,10 @@
     [disabled]="!loop && currentIndex == 0"
     (click)="previous()"
   >
-    <mat-icon>arrow_back</mat-icon>
+  <ng-container [ngSwitch]="svgIconDefs?.arrow_back?.length > 0">
+    <mat-icon *ngSwitchDefault>arrow_back</mat-icon>
+    <mat-icon *ngSwitchCase="true" svgIcon="{{svgIconDefs.arrow_back}}"></mat-icon>
+  </ng-container>
   </button>
   <button
     *ngIf="!hideArrows"
@@ -43,7 +46,10 @@
     [disabled]="!loop && currentIndex == slidesList.length - 1"
     (click)="next()"
   >
-    <mat-icon>arrow_forward</mat-icon>
+    <ng-container [ngSwitch]="svgIconDefs?.arrow_forward?.length > 0">
+      <mat-icon *ngSwitchDefault>arrow_forward</mat-icon>
+      <mat-icon *ngSwitchCase="true" svgIcon="{{svgIconDefs.arrow_forward}}"></mat-icon>
+    </ng-container>
   </button>
 
   <div

@@ -53,7 +53,7 @@ import { MatCarousel, MatCarouselComponent } from '@ngmodule/material-carousel';
 | `useKeyboard`    | `boolean`      | Enable keyboard navigation.               | `true`            |
 | `useMouseWheel`  | `boolean`      | Enable navigation through mouse wheeling. | `false`           |
 | `orientation`    | `Orientation`  | Orientation of the sliding panel.         | `'ltr'`           |
-
+| `svgIconDefs`    | `MatCarouselSvgIconDefs`  | Override default carousel icons with registered SVG icons.         |           |
 ### `MatCarouselSlideComponent`
 ```typescript
 import { MatCarouselSlide, MatCarouselSlideComponent } from '@ngmodule/material-carousel';
