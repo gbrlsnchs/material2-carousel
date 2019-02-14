@@ -7,12 +7,14 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { MatCarouselComponent } from './carousel.component';
 import { MatCarouselModule } from './carousel.module';
+import { MatCarouselImage } from '@ngmodule/material-carousel/public_api';
+import { By } from '@angular/platform-browser';
 
 @Component({
   selector: 'mat-carousel-test-wrapper-component',
   template: `
     <mat-carousel [autoplay]="false">
-      <mat-carousel-slide *ngFor="let slide of slides"></mat-carousel-slide>
+      <mat-carousel-slide *ngFor="let slide of slides" [image]="{altText: null, url: null}"></mat-carousel-slide>
     </mat-carousel>
   `
 })
@@ -23,6 +25,7 @@ class MatCarouselTestWrapperComponent {
 describe('MatCarouselComponent', () => {
   let component: MatCarouselComponent;
   let fixture: ComponentFixture<MatCarouselTestWrapperComponent>;
+  let carouselSlide:HTMLSpanElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,8 +42,8 @@ describe('MatCarouselComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MatCarouselTestWrapperComponent);
     component = fixture.debugElement.children[0].componentInstance;
-
     fixture.detectChanges();
+    carouselSlide = fixture.debugElement.query(By.css('span.carousel-slide')).nativeElement;
   });
 
   it('should create', () => {
@@ -86,4 +89,18 @@ describe('MatCarouselComponent', () => {
     component.previous();
     expect(component.currentIndex).toBe(0);
   });
+
+  it('should have aria-label equal to supplied altText on slides', () => {
+    const image: MatCarouselImage = {altText: 'alt text', url: 'url'};
+    component.slidesList.forEach(slide => slide.image = image);
+    fixture.detectChanges();
+    expect(carouselSlide.getAttribute("aria-label")).toEqual(image.altText);
+  })
+
+  it('should not have aria-label on slides when altText is not supplied', () => {
+    const image: MatCarouselImage = {altText: null, url: 'url'};
+    component.slidesList.forEach(slide => slide.image = image);
+    fixture.detectChanges();
+    expect(carouselSlide.getAttribute("aria-label")).toBeNull();
+  })
 });
