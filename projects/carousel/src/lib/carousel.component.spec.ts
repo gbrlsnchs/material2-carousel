@@ -7,8 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { MatCarouselComponent } from './carousel.component';
 import { MatCarouselModule } from './carousel.module';
-import { MatCarouselImage } from '@ngmodule/material-carousel/public_api';
 import { By } from '@angular/platform-browser';
+import { MatCarouselImage } from './carousel-slide/carousel-slide';
 
 @Component({
   selector: 'mat-carousel-test-wrapper-component',
