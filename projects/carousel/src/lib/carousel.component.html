@@ -32,7 +32,7 @@
     [color]="color"
     [disabled]="!loop && currentIndex == 0"
     (click)="previous()"
-    aria-label="Previous Slide"
+    attr.aria-label="Previous Slide"
   >
     <mat-icon>arrow_back</mat-icon>
   </button>
@@ -43,7 +43,7 @@
     [color]="color"
     [disabled]="!loop && currentIndex == slidesList.length - 1"
     (click)="next()"
-    aria-label="Next Slide"
+    attr.aria-label="Next Slide"
   >
     <mat-icon>arrow_forward</mat-icon>
   </button>
