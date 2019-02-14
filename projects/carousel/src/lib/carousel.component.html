@@ -32,6 +32,7 @@
     [color]="color"
     [disabled]="!loop && currentIndex == 0"
     (click)="previous()"
+    aria-label="Previous Slide"
   >
     <mat-icon>arrow_back</mat-icon>
   </button>
@@ -42,6 +43,7 @@
     [color]="color"
     [disabled]="!loop && currentIndex == slidesList.length - 1"
     (click)="next()"
+    aria-label="Next Slide"
   >
     <mat-icon>arrow_forward</mat-icon>
   </button>
@@ -60,6 +62,7 @@
       [disabled]="i == currentIndex"
       (click)="slideTo(i)"
       (focus)="carouselContainer.focus()"
+      attr.aria-label="View Slide {{i+1}}"
     ></button>
   </div>
 </div>
