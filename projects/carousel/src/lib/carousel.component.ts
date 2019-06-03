@@ -20,7 +20,7 @@ import { ThemePalette } from '@angular/material';
 import { interval, BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { MatCarousel, Orientation } from './carousel';
+import { MatCarousel, Orientation, SvgIconOverrides } from './carousel';
 import { MatCarouselSlideComponent } from './carousel-slide/carousel-slide.component';
 
 enum Direction {
@@ -37,6 +37,7 @@ enum Direction {
 export class MatCarouselComponent
   implements AfterContentInit, AfterViewInit, MatCarousel, OnDestroy {
   @Input() public timings = '250ms ease-in';
+  @Input() public svgIconOverrides: SvgIconOverrides;
 
   @Input()
   public set autoplay(value: boolean) {

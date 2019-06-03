@@ -38,21 +38,22 @@ import { MatCarousel, MatCarouselComponent } from '@ngmodule/material-carousel';
 </mat-carousel>
 ```
 #### Attributes
-| Input            |  Type          | Description                               | Default value     |
-| ---------------- | -------------- | ----------------------------------------- | :---------------: |
-| `timings`        | `string`       | Timings for slide animation.              | `'250ms ease-in'` |
-| `autoplay`       | `boolean`      | Enable automatic sliding.                 | `true`            |
-| `interval`       | `number`       | Autoplay's interval in milliseconds.      | `5000`            |
-| `loop`           | `boolean`      | Enable loop through arrows.               | `true`            |
-| `hideArrows`     | `boolean`      | Hide navigation arrows.                   | `false`           |
-| `hideIndicators` | `boolean`      | Hide navigation indicators.               | `false`           |
-| `color`          | `ThemePalette` | Color palette from Material.              | `'accent'`        |
-| `maxWidth`       | `string`       | Maximum width.                            | `'auto'`          |
-| `proportion`     | `number`       | Height proportion compared to width.      | `25`              |
-| `slides`         | `number`       | Maximum amount of displayed slides.       |                   |
-| `useKeyboard`    | `boolean`      | Enable keyboard navigation.               | `true`            |
-| `useMouseWheel`  | `boolean`      | Enable navigation through mouse wheeling. | `false`           |
-| `orientation`    | `Orientation`  | Orientation of the sliding panel.         | `'ltr'`           |
+| Input              |  Type              | Description                                                | Default value     |
+| ------------------ | ------------------ | ---------------------------------------------------------- | :---------------: |
+| `timings`          | `string`           | Timings for slide animation.                               | `'250ms ease-in'` |
+| `autoplay`         | `boolean`          | Enable automatic sliding.                                  | `true`            |
+| `interval`         | `number`           | Autoplay's interval in milliseconds.                       | `5000`            |
+| `loop`             | `boolean`          | Enable loop through arrows.                                | `true`            |
+| `hideArrows`       | `boolean`          | Hide navigation arrows.                                    | `false`           |
+| `hideIndicators`   | `boolean`          | Hide navigation indicators.                                | `false`           |
+| `color`            | `ThemePalette`     | Color palette from Material.                               | `'accent'`        |
+| `maxWidth`         | `string`           | Maximum width.                                             | `'auto'`          |
+| `proportion`       | `number`           | Height proportion compared to width.                       | `25`              |
+| `slides`           | `number`           | Maximum amount of displayed slides.                        |                   |
+| `useKeyboard`      | `boolean`          | Enable keyboard navigation.                                | `true`            |
+| `useMouseWheel`    | `boolean`          | Enable navigation through mouse wheeling.                  | `false`           |
+| `orientation`      | `Orientation`      | Orientation of the sliding panel.                          | `'ltr'`           |
+| `svgIconOverrides` | `SvgIconOverrides` | Override default carousel icons with registered SVG icons. |                   |
 
 ### `MatCarouselSlideComponent`
 ```typescript

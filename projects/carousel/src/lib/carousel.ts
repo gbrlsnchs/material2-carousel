@@ -1,7 +1,5 @@
 import { ThemePalette } from '@angular/material';
 
-export type Orientation = 'ltr' | 'rtl';
-
 export interface MatCarousel {
   // Animations.
   timings: string;
@@ -16,8 +14,15 @@ export interface MatCarousel {
   maxWidth: string;
   proportion: number;
   slides: number;
+  svgIconOverrides: SvgIconOverrides;
   // Accessibility.
   useKeyboard: boolean;
   useMouseWheel: boolean;
   orientation: Orientation;
+}
+
+export type Orientation = 'ltr' | 'rtl';
+export interface SvgIconOverrides {
+  arrowBack: string;
+  arrowForward: string;
 }
