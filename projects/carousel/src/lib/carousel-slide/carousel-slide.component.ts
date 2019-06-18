@@ -6,9 +6,9 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
-import { MatCarouselSlide, SafeStyle } from './carousel-slide';
+import { MatCarouselSlide } from './carousel-slide';
 
 @Component({
   selector: 'mat-carousel-slide',
