@@ -6,6 +6,7 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { MatCarouselSlide } from './carousel-slide';
 
@@ -22,10 +23,13 @@ export class MatCarouselSlideComponent
   @Input() public disabled = false; // implements ListKeyManagerOption
 
   @ViewChild(TemplateRef) public templateRef: TemplateRef<any>;
+    
+  constructor(public sanitizer: DomSanitizer) {
+  }
 
   public ngOnInit(): void {
     if (this.image) {
-      this.image = `url("${this.image}")`;
+      this.image = this.sanitizer.bypassSecurityTrustStyle(`url("${this.image}")`);
     }
   }
 }
