@@ -32,6 +32,7 @@
     [color]="color"
     [disabled]="!loop && currentIndex == 0"
     (click)="previous()"
+    attr.aria-label="Previous Slide"
   >
     <mat-icon
       *ngIf="svgIconOverrides?.arrowBack; else: defaultArrowBack"
@@ -48,6 +49,7 @@
     [color]="color"
     [disabled]="!loop && currentIndex == slidesList.length - 1"
     (click)="next()"
+    attr.aria-label="Next Slide"
   >
     <mat-icon
       *ngIf="svgIconOverrides?.arrowForward; else: defaultArrowForward"
@@ -72,6 +74,7 @@
       [disabled]="i == currentIndex"
       (click)="slideTo(i)"
       (focus)="carouselContainer.focus()"
+      attr.aria-label="View Slide {{i+1}}"
     ></button>
   </div>
 </div>
