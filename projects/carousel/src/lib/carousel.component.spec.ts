@@ -1,6 +1,6 @@
 import 'hammerjs';
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -85,5 +85,44 @@ describe('MatCarouselComponent', () => {
     component.loop = false;
     component.previous();
     expect(component.currentIndex).toBe(0);
+  });
+
+  describe('@Output(change)', () => {
+    beforeEach(() => {
+      spyOn(component.change, 'emit');
+      component.loop = true;
+    });
+
+    it('should emit when slideTo is called', fakeAsync(() => {
+      const idx = (component.currentIndex + 1) % component.slidesList.length;
+      component.slideTo(idx);
+      tick();
+
+      expect(component.change.emit).toHaveBeenCalledWith(idx);
+    }));
+
+    it('should emit when next is called', fakeAsync(() => {
+      component.next();
+      tick();
+
+      expect(component.change.emit).toHaveBeenCalledWith(1);
+    }));
+
+    it('should emit when previous is called', fakeAsync(() => {
+      component.previous();
+      tick();
+
+      expect(component.change.emit).toHaveBeenCalledWith(component.slidesList.length - 1);
+    }));
+
+    it('should emit when autoplay is set', fakeAsync(() => {
+      component.autoplay = true;
+      component.interval = 100;
+      tick(100);
+
+      component.autoplay = false;
+
+      expect(component.change.emit).toHaveBeenCalledWith(1);
+    }));
   });
 });
