@@ -34,6 +34,7 @@ export class AppComponent {
   public useKeyboard = true;
   public useMouseWheel = false;
   public orientation: Orientation = 'ltr';
+  public log: string[] = [];
 
   @ViewChildren(MatCarouselSlideComponent) public carouselSlides: QueryList<
     MatCarouselSlideComponent
@@ -126,5 +127,9 @@ export class AppComponent {
 
   public resetSlides(): void {
     this.carouselSlides.forEach(item => (item.disabled = false));
+  }
+
+  public onChange(index: number) {
+    this.log.push(`MatCarousel#change emitted with index ${index}`);
   }
 }
