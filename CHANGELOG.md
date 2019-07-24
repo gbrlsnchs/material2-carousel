@@ -4,9 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2019-07-24
+### Added
+- Support for remote images (by [alerubis]).
+- Event for changing slides (by [tiagoblackcode]).
+
+### Fixed
+- Prevent carousel buttons to submit forms (by [tiagoblackcode]).
+
 ## [0.4.0] - 2019-06-03
 ### Added
-- Support for overriding icons with other SVG icons (by [lenart91](https://github.com/lenart91)).
+- Support for overriding icons with other SVG icons (by [lenart91]).
 
 ### Fixed
 - Enable autoplay when carousel is partially visible.
@@ -67,6 +75,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Angular CLI files.
 - Demo application project.
 
+[0.5.0]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.2.1...v0.3.0
@@ -75,3 +84,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [0.1.3]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.1.0...v0.1.1
+
+[lenart91]: https://github.com/lenart91
+[alerubis]: https://github.com/alerubis
+[tiagoblackcode]: https://github.com/tiagoblackcode
