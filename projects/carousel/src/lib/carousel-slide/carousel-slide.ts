@@ -1,5 +1,7 @@
+import { SafeStyle } from '@angular/platform-browser';
+
 export interface MatCarouselSlide {
-  image: string;
+  image: SafeStyle;
   overlayColor: string;
   hideOverlay: boolean;
   disabled: boolean;
