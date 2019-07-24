@@ -28,6 +28,7 @@
   <button
     *ngIf="!hideArrows"
     mat-icon-button
+    type="button"
     tabindex="-1"
     [color]="color"
     [disabled]="!loop && currentIndex == 0"
@@ -44,6 +45,7 @@
   <button
     *ngIf="!hideArrows"
     mat-icon-button
+    type="button"
     tabindex="-1"
     [color]="color"
     [disabled]="!loop && currentIndex == slidesList.length - 1"
@@ -66,6 +68,7 @@
   >
     <button
       *ngFor="let slide of slidesList; let i = index"
+      type="button"
       tabindex="-1"
       mat-mini-fab
       [color]="color"
