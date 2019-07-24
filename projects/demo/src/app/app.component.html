@@ -183,6 +183,7 @@
           [useMouseWheel]="useMouseWheel"
           [orientation]="orientation"
           [slides]="slides"
+          (change)="onChange($event)"
         >
           <mat-carousel-slide
             #matCarouselSlide
@@ -210,6 +211,12 @@
           </mat-carousel-slide>
         </mat-carousel>
       </div>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>Events</mat-expansion-panel-header>
+        <pre [innerText]="log.join('\n')">
+        </pre>
+      </mat-expansion-panel>
 
       <pre><code class="demo-code">{{ code }}</code></pre>
     </mat-card-content>

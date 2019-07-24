@@ -7,10 +7,12 @@ import {
   Component,
   ContentChildren,
   ElementRef,
+  EventEmitter,
   HostListener,
   Inject,
   Input,
   OnDestroy,
+  Output,
   PLATFORM_ID,
   QueryList,
   Renderer2,
@@ -90,6 +92,9 @@ export class MatCarouselComponent
     this.orientation$.next(value);
     this._orientation = value;
   }
+
+  @Output()
+  public change: EventEmitter<number> = new EventEmitter<number>();
 
   public get currentIndex(): number {
     if (this.listKeyManager) {
@@ -345,6 +350,7 @@ export class MatCarouselComponent
 
     animation.onStart(() => (this.playing = true));
     animation.onDone(() => {
+      this.change.emit(this.currentIndex);
       this.playing = false;
       this.renderer.setStyle(
         this.carouselList.nativeElement,
