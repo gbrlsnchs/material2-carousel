@@ -247,6 +247,12 @@ export class MatCarouselComponent
   }
 
   public onPan(event: any, slideElem: HTMLElement): void {
+    // https://github.com/angular/angular/issues/10541#issuecomment-346539242
+    // if y velocity is greater, it's a panup/pandown, so ignore.
+    if (Math.abs(event.velocityY) > Math.abs(event.velocityX)) {
+      // console.log('y velocity is greater, ignoring');
+      return;
+    }
     let Δx = event.deltaX;
     if (this.isOutOfBounds()) {
       Δx *= 0.2; // decelerate movement;
