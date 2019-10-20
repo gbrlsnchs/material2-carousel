@@ -3,19 +3,22 @@
   class="carousel"
   tabindex="0"
   [style.max-width]="maxWidth"
+  [style.height]="!maintainAspectRatio ? '100%' : 'auto'"
 >
   <ul
     #carouselList
     class="carousel-list"
     role="listbox"
     [style.flex-direction]="orientation === 'rtl' ? 'row-reverse' : 'row'"
+    [style.height]="!maintainAspectRatio ? '100%' : 'auto'"
   >
     <li
       #carouselSlide
       *ngFor="let slide of slidesList"
       class="carousel-slide"
       role="option"
-      [style.padding-bottom]="proportion + '%'"
+      [style.padding-bottom]="maintainAspectRatio && proportion ? proportion + '%': '0px'"
+      [style.height]="!maintainAspectRatio && slideHeight ? slideHeight : '0px'"
       (panleft)="onPan($event, carouselSlide)"
       (panright)="onPan($event, carouselSlide)"
       (panend)="onPanEnd($event, carouselSlide)"

@@ -19,6 +19,7 @@ export class AppComponent {
   public slidesList = new Array<never>(5);
   public showContent = false;
 
+  public parentHeight = 'auto';
   public timings = '250ms ease-in';
   public autoplay = true;
   public interval = 5000;
@@ -27,7 +28,9 @@ export class AppComponent {
   public hideIndicators = false;
   public color: ThemePalette = 'accent';
   public maxWidth = 'auto';
+  public maintainAspectRatio = true;
   public proportion = 25;
+  public slideHeight = '200px';
   public slides = this.slidesList.length;
   public overlayColor = '#00000040';
   public hideOverlay = false;

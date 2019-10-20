@@ -74,7 +74,9 @@ export class MatCarouselComponent
     this.maxWidth$.next();
   }
 
+  @Input() public maintainAspectRatio = true;
   @Input() public proportion = 25;
+  @Input() public slideHeight = '100%';
 
   @Input()
   public set slides(value: number) {
