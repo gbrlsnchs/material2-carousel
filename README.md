@@ -57,7 +57,7 @@ import { MatCarousel, MatCarouselComponent } from '@ngmodule/material-carousel';
 | `orientation`         | `Orientation`      | Orientation of the sliding panel.                                          | `'ltr'`           |
 | `svgIconOverrides`    | `SvgIconOverrides` | Override default carousel icons with registered SVG icons.                 |                   |
 
-#### Size Considerations
+#### Size Considerations and Recommendations
 By default, `maintainAspectRatio` is true, which means height is controlled through `proportion`.
 
 If you want to have a carousel with constant height (regardless of width), you must set `maintainAspectRatio` to false.
@@ -66,16 +66,16 @@ By default, `slideHeight` is set to `100%`, which will not work if the parent el
 
 Play around with the [demo](https://gbrlsnchs.github.io/material2-carousel/) to see how you can use this carousel with or without explicit parent height.
 
-**Proper Usage**
-* use `proportion` if you want a carousel that resizes responsively.
-* use `maintainAspectRatio="false"` and parent element height if you want a fixed height carousel that fills the parent element (`slideHeight` is `100%` by default).
-* use `maintainAspectRatio="false"` and `slideHeight` if you want a fixed height carousel when parent element height is `auto`.
 
-**DO NOT** 
-* use `slideHeight` if `maintainAspectRatio` is true.
-* use `proportion` if `maintainAspectRatio` is false.
-* use relative (%) values for `slideHeight` if parent element height is `auto`.
-* use `maintainAspectRatio="false"` + **both** `slideHeight` and explicit parent element height if you want a fixed height carousel. This could create a gap.
+**With parent elements that have a set height**
+* use `maintainAspectRatio="false"` if you want a fixed height carousel that fills the parent element (`slideHeight` is `100%` by default).
+* **DO NOT** use `maintainAspectRatio="false"` **and** `slideHeight`; the buttons and indicators will be positioned with respect to the parent.
+* **DO NOT** use `proportion`; this will lead to gaps or unwanted overflow.
+
+**With parent elements that have height:auto**
+* use `proportion` if you want a carousel that resizes responsively.
+* use `maintainAspectRatio="false"` and a non-percentage `slideHeight` if you want a fixed height carousel.
+* **DO NOT** use relative (%) values for `slideHeight`; the carousel will not render.
 
 ### `MatCarouselSlideComponent`
 ```typescript
