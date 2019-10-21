@@ -66,16 +66,15 @@ By default, `slideHeight` is set to `100%`, which will not work if the parent el
 
 Play around with the [demo](https://gbrlsnchs.github.io/material2-carousel/) to see how you can use this carousel with or without explicit parent height.
 
+**With parent elements that have height:auto**
+* use `proportion` if you want a carousel that resizes responsively (this is the default configuration).
+* use `maintainAspectRatio="false"` and a non-percentage `slideHeight` if you want a fixed height carousel.
+* **DO NOT** use relative (%) values for `slideHeight`; the carousel will not render.
 
 **With parent elements that have a set height**
 * use `maintainAspectRatio="false"` if you want a fixed height carousel that fills the parent element (`slideHeight` is `100%` by default).
-* **DO NOT** use `maintainAspectRatio="false"` **and** `slideHeight`; the buttons and indicators will be positioned with respect to the parent.
+* **DO NOT** use `maintainAspectRatio="false"` **and** `slideHeight`; the carousel will not render correctly because the buttons and indicators will be positioned with respect to the parent.
 * **DO NOT** use `proportion`; this will lead to gaps or unwanted overflow.
-
-**With parent elements that have height:auto**
-* use `proportion` if you want a carousel that resizes responsively.
-* use `maintainAspectRatio="false"` and a non-percentage `slideHeight` if you want a fixed height carousel.
-* **DO NOT** use relative (%) values for `slideHeight`; the carousel will not render.
 
 ### `MatCarouselSlideComponent`
 ```typescript
