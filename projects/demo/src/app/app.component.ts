@@ -19,6 +19,7 @@ export class AppComponent {
   public slidesList = new Array<never>(5);
   public showContent = false;
 
+  public parentHeight = 'auto';
   public timings = '250ms ease-in';
   public autoplay = true;
   public interval = 5000;
@@ -27,7 +28,9 @@ export class AppComponent {
   public hideIndicators = false;
   public color: ThemePalette = 'accent';
   public maxWidth = 'auto';
+  public maintainAspectRatio = true;
   public proportion = 25;
+  public slideHeight = '200px';
   public slides = this.slidesList.length;
   public overlayColor = '#00000040';
   public hideOverlay = false;
@@ -43,29 +46,31 @@ export class AppComponent {
 
   public get code(): string {
     return `
-<mat-carousel
-  timings="${this.timings}"
-  [autoplay]="${this.autoplay}"
-  interval="${this.interval}"
-  color="${this.color}"
-  maxWidth="${this.maxWidth}"
-  proportion="${this.proportion}"
-  slides="${this.slides}"
-  [loop]="${this.loop}"
-  [hideArrows]="${this.hideArrows}"
-  [hideIndicators]="${this.hideIndicators}"
-  [useKeyboard]="${this.useKeyboard}"
-  [useMouseWheel]="${this.useMouseWheel}"
-  orientation="${this.orientation}"
->
-  <mat-carousel-slide
-    #matCarouselSlide
-    *ngFor="let slide of slides; let i = index"
-    [image]="slide.image"
-    overlayColor="${this.overlayColor}"
-    [hideOverlay]="${this.hideOverlay}"
-  >${this.showContent ? this.innerCode : ''}</mat-carousel-slide>
-</mat-carousel>
+<div [style.height]="${this.parentHeight}">
+  <mat-carousel
+    timings="${this.timings}"
+    [autoplay]="${this.autoplay}"
+    interval="${this.interval}"
+    color="${this.color}"
+    maxWidth="${this.maxWidth}"
+    proportion="${this.proportion}"
+    slides="${this.slides}"
+    [loop]="${this.loop}"
+    [hideArrows]="${this.hideArrows}"
+    [hideIndicators]="${this.hideIndicators}"
+    [useKeyboard]="${this.useKeyboard}"
+    [useMouseWheel]="${this.useMouseWheel}"
+    orientation="${this.orientation}"
+  >
+    <mat-carousel-slide
+      #matCarouselSlide
+      *ngFor="let slide of slides; let i = index"
+      [image]="slide.image"
+      overlayColor="${this.overlayColor}"
+      [hideOverlay]="${this.hideOverlay}"
+    >${this.showContent ? this.innerCode : ''}</mat-carousel-slide>
+  </mat-carousel>
+</div>
     `;
   }
 
