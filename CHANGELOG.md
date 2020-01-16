@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2020-01-16
+### Added
+- Inputs for fixed height carousel (by [chriswnewman]).
+
+### Changed
+- Import `ThemePalette` (by [Cayan]).
+
 ## [0.5.1] - 2019-10-03
 ### Fixed
 - Fix vertical scrolling on mobile devices (by [chriswnewman]).
@@ -79,6 +86,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Angular CLI files.
 - Demo application project.
 
+[0.6.0]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.5.1...v0.6.0
+[0.5.1]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/gbrlsnchs/material2-carousel/compare/v0.3.0...v0.3.1
@@ -93,3 +102,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [alerubis]: https://github.com/alerubis
 [tiagoblackcode]: https://github.com/tiagoblackcode
 [chriswnewman]: https://github.com/chriswnewman
+[Cayan]: https://github.com/Cayan
