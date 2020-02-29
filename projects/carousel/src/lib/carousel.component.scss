@@ -45,7 +45,6 @@
     position: absolute;
     bottom: 15px;
     z-index: 1;
-    @include centerX();
     outline: none;
 
     & > button {
