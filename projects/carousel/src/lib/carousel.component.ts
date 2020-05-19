@@ -231,11 +231,11 @@ export class MatCarouselComponent
   public onMouseWheel(event: MouseWheelEvent): void {
     if (this.useMouseWheel) {
       event.preventDefault(); // prevent window to scroll
-      const Δ = Math.sign(event.wheelDelta);
+      const Δ = Math.sign(event.deltaY);
 
-      if (Δ < 0) {
+      if (Δ > 0) {
         this.next();
-      } else if (Δ > 0) {
+      } else if (Δ < 0) {
         this.previous();
       }
     }

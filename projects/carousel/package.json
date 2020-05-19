@@ -15,8 +15,9 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@angular/material": "^7.0.0",
-    "hammerjs": "^2.0.8",
-    "rxjs": "~6.3.3"
+    "@angular/material": "~9.2.4",
+    "@angular/common": "~9.1.7",
+    "@angular/core": "~9.1.7",
+    "rxjs": "~6.5.4"
   }
 }
