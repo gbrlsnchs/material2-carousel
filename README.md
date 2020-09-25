@@ -6,7 +6,7 @@
 ## NOTICE
 I no longer use Angular. By not using Angular anymore, it means I no longer use this component, what prevents me from pushing quality commits, doing assertive code reviews and being up-to-date with new Angular releases. I don't do open source for stars, I do to help people, so I don't want people that depend on this component to have a bad support.
 
-That said, for the sake of the community, I suggest someone to fork this repository. There are a bunch of small issues to be solved and also some major ones but I'm sure someone actively using Angular will handle them with ease.
+That said, for the sake of the community, I suggest you to use [this fork](https://github.com/gabrielbusarello/material2-carousel) instead (thanks [gabrielbusarello](https://github.com/gabrielbusarello)!). There are a bunch of small issues to be solved and also some major ones but I'm sure someone actively using Angular will handle them with ease.
 
 Thanks for the support and take care!
 
